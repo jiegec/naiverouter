@@ -54,6 +54,20 @@ module router_top(
     output rgmii2_tx_ctl,
     output rgmii2_txc,
 
+    input [3:0] rgmii3_rd,
+    input rgmii3_rx_ctl,
+    input rgmii3_rxc,
+    output [3:0] rgmii3_td,
+    output rgmii3_tx_ctl,
+    output rgmii3_txc,
+
+    input [3:0] rgmii4_rd,
+    input rgmii4_rx_ctl,
+    input rgmii4_rxc,
+    output [3:0] rgmii4_td,
+    output rgmii4_tx_ctl,
+    output rgmii4_txc,
+
     output [`PORT_OS_COUNT-1:0][`STATS_WIDTH-1:0] stats_rx_packets,
     output [`PORT_OS_COUNT-1:0][`STATS_WIDTH-1:0] stats_rx_bytes,
     output [`PORT_OS_COUNT-1:0][`STATS_WIDTH-1:0] stats_tx_packets,
@@ -97,6 +111,20 @@ module router_top(
 	    .rgmii2_td(rgmii2_td),
 	    .rgmii2_tx_ctl(rgmii2_tx_ctl),
 	    .rgmii2_txc(rgmii2_txc),
+
+	    .rgmii3_rd(rgmii3_rd),
+	    .rgmii3_rx_ctl(rgmii3_rx_ctl),
+	    .rgmii3_rxc(rgmii3_rxc),
+	    .rgmii3_td(rgmii3_td),
+	    .rgmii3_tx_ctl(rgmii3_tx_ctl),
+	    .rgmii3_txc(rgmii3_txc),
+
+	    .rgmii4_rd(rgmii4_rd),
+	    .rgmii4_rx_ctl(rgmii4_rx_ctl),
+	    .rgmii4_rxc(rgmii4_rxc),
+	    .rgmii4_td(rgmii4_td),
+	    .rgmii4_tx_ctl(rgmii4_tx_ctl),
+	    .rgmii4_txc(rgmii4_txc),
 
 	    .stats_rx_packets(stats_rx_packets),
 	    .stats_rx_bytes(stats_rx_bytes),

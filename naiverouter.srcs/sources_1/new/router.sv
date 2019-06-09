@@ -54,6 +54,20 @@ module router(
     output logic rgmii2_tx_ctl,
     output logic rgmii2_txc,
 
+    input logic [3:0] rgmii3_rd,
+    input logic rgmii3_rx_ctl,
+    input logic rgmii3_rxc,
+    output logic [3:0] rgmii3_td,
+    output logic rgmii3_tx_ctl,
+    output logic rgmii3_txc,
+
+    input logic [3:0] rgmii4_rd,
+    input logic rgmii4_rx_ctl,
+    input logic rgmii4_rxc,
+    output logic [3:0] rgmii4_td,
+    output logic rgmii4_tx_ctl,
+    output logic rgmii4_txc,
+
     output logic [`PORT_OS_COUNT-1:0][`STATS_WIDTH-1:0] stats_rx_packets,
     output logic [`PORT_OS_COUNT-1:0][`STATS_WIDTH-1:0] stats_rx_bytes,
     output logic [`PORT_OS_COUNT-1:0][`STATS_WIDTH-1:0] stats_tx_packets,
@@ -154,8 +168,10 @@ module router(
     logic [`PORT_OS_COUNT-1:0][`PORT_OS_COUNT-1:0] fifo_matrix_wready;
 
     logic [`PORT_COUNT-1:0][`IPV4_WIDTH-1:0] port_ip = {
-        `IPV4_WIDTH'h0a000101,// port 1 10.0.1.1
-        `IPV4_WIDTH'h0a000001 // port 0 10.0.0.1
+        `IPV4_WIDTH'h0a000301, // port 3 10.0.3.1
+        `IPV4_WIDTH'h0a000201, // port 2 10.0.2.1
+        `IPV4_WIDTH'h0a000101, // port 1 10.0.1.1
+        `IPV4_WIDTH'h0a000001  // port 0 10.0.0.1
     };
 
     // port 0
@@ -286,6 +302,134 @@ module router(
         .stats_rx_packets(stats_rx_packets[1]),
         .stats_tx_bytes(stats_tx_bytes[1]),
         .stats_tx_packets(stats_tx_packets[1])
+    );
+
+    // port 2
+    port #(
+        .shared(2)
+    ) port_inst_2 (
+        .clk(clk),
+        .reset_n(reset_n),
+        .port_id(2'b10),
+        .port_ip(port_ip), // 10.0.2.1
+        .port_mac(48'h020203030000), // 02:02:03:03:00:00
+
+        // arp
+        .arp_arbiter_req(arp_arbiter_req[2]),
+        .arp_arbiter_granted(arp_arbiter_grant[2]),
+        .arp_lookup_ip(port_arp_lookup_ip[2]),
+        .arp_lookup_mac(port_arp_lookup_mac[2]),
+        .arp_lookup_port(port_arp_lookup_port[2]),
+        .arp_lookup_ip_valid(port_arp_lookup_ip_valid[2]),
+        .arp_lookup_mac_valid(port_arp_lookup_mac_valid[2]),
+        .arp_lookup_mac_not_found(port_arp_lookup_mac_not_found[2]),
+        .arp_insert_ip(port_arp_insert_ip[2]),
+        .arp_insert_mac(port_arp_insert_mac[2]),
+        .arp_insert_port(port_arp_insert_port[2]),
+        .arp_insert_valid(port_arp_insert_valid[2]),
+        .arp_insert_ready(port_arp_insert_ready[2]),
+
+        // routing
+        .routing_arbiter_req(routing_arbiter_req[2]),
+        .routing_arbiter_granted(routing_arbiter_grant[2]),
+        .routing_lookup_dest_ip(port_lookup_dest_ip[2]),
+        .routing_lookup_via_ip(port_lookup_via_ip[2]),
+        .routing_lookup_via_port(port_lookup_via_port[2]),
+        .routing_lookup_valid(port_lookup_valid[2]),
+        .routing_lookup_ready(port_lookup_ready[2]),
+        .routing_lookup_output_valid(port_lookup_output_valid[2]),
+        .routing_lookup_not_found(port_lookup_not_found[2]),
+
+        // from X to current
+        .fifo_matrix_tx_wdata({fifo_matrix_wdata[4][2], fifo_matrix_wdata[3][2], fifo_matrix_wdata[2][2], fifo_matrix_wdata[1][2], fifo_matrix_wdata[0][2]}),
+        .fifo_matrix_tx_wlast({fifo_matrix_wlast[4][2], fifo_matrix_wlast[3][2], fifo_matrix_wlast[2][2], fifo_matrix_wlast[1][2], fifo_matrix_wlast[0][2]}),
+        .fifo_matrix_tx_wvalid({fifo_matrix_wvalid[4][2], fifo_matrix_wvalid[3][2], fifo_matrix_wvalid[2][2], fifo_matrix_wvalid[1][2], fifo_matrix_wvalid[0][2]}),
+        .fifo_matrix_tx_wready({fifo_matrix_wready[4][2], fifo_matrix_wready[3][2], fifo_matrix_wready[2][2], fifo_matrix_wready[1][2], fifo_matrix_wready[0][2]}),
+
+        // from current to X
+        .fifo_matrix_rx_wdata({fifo_matrix_wdata[2][4], fifo_matrix_wdata[2][3], fifo_matrix_wdata[2][2], fifo_matrix_wdata[2][1], fifo_matrix_wdata[2][0]}),
+        .fifo_matrix_rx_wlast({fifo_matrix_wlast[2][4], fifo_matrix_wlast[2][3], fifo_matrix_wlast[2][2], fifo_matrix_wlast[2][1], fifo_matrix_wlast[2][0]}),
+        .fifo_matrix_rx_wvalid({fifo_matrix_wvalid[2][4], fifo_matrix_wvalid[2][3], fifo_matrix_wvalid[2][2], fifo_matrix_wvalid[2][1], fifo_matrix_wvalid[2][0]}),
+        .fifo_matrix_rx_wready({fifo_matrix_wready[2][4], fifo_matrix_wready[2][3], fifo_matrix_wready[2][2], fifo_matrix_wready[2][1], fifo_matrix_wready[2][0]}),
+
+        .gtx_clk(gtx_clk),
+        .gtx_clk90(gtx_clk90),
+
+        .rgmii_td(rgmii3_td),
+        .rgmii_tx_ctl(rgmii3_tx_ctl),
+        .rgmii_txc(rgmii3_txc),
+        .rgmii_rd(rgmii3_rd),
+        .rgmii_rx_ctl(rgmii3_rx_ctl),
+        .rgmii_rxc(rgmii3_rxc),
+
+        .stats_rx_bytes(stats_rx_bytes[2]),
+        .stats_rx_packets(stats_rx_packets[2]),
+        .stats_tx_bytes(stats_tx_bytes[2]),
+        .stats_tx_packets(stats_tx_packets[2])
+    );
+
+    // port 3
+    port #(
+        .shared(3)
+    ) port_inst_3 (
+        .clk(clk),
+        .reset_n(reset_n),
+        .port_id(2'b11),
+        .port_ip(port_ip), // 10.0.3.1
+        .port_mac(48'h020203030000), // 02:02:03:03:00:00
+
+        // arp
+        .arp_arbiter_req(arp_arbiter_req[3]),
+        .arp_arbiter_granted(arp_arbiter_grant[3]),
+        .arp_lookup_ip(port_arp_lookup_ip[3]),
+        .arp_lookup_mac(port_arp_lookup_mac[3]),
+        .arp_lookup_port(port_arp_lookup_port[3]),
+        .arp_lookup_ip_valid(port_arp_lookup_ip_valid[3]),
+        .arp_lookup_mac_valid(port_arp_lookup_mac_valid[3]),
+        .arp_lookup_mac_not_found(port_arp_lookup_mac_not_found[3]),
+        .arp_insert_ip(port_arp_insert_ip[3]),
+        .arp_insert_mac(port_arp_insert_mac[3]),
+        .arp_insert_port(port_arp_insert_port[3]),
+        .arp_insert_valid(port_arp_insert_valid[3]),
+        .arp_insert_ready(port_arp_insert_ready[3]),
+
+        // routing
+        .routing_arbiter_req(routing_arbiter_req[3]),
+        .routing_arbiter_granted(routing_arbiter_grant[3]),
+        .routing_lookup_dest_ip(port_lookup_dest_ip[3]),
+        .routing_lookup_via_ip(port_lookup_via_ip[3]),
+        .routing_lookup_via_port(port_lookup_via_port[3]),
+        .routing_lookup_valid(port_lookup_valid[3]),
+        .routing_lookup_ready(port_lookup_ready[3]),
+        .routing_lookup_output_valid(port_lookup_output_valid[3]),
+        .routing_lookup_not_found(port_lookup_not_found[3]),
+
+        // from X to current
+        .fifo_matrix_tx_wdata({fifo_matrix_wdata[4][3], fifo_matrix_wdata[3][3], fifo_matrix_wdata[2][3], fifo_matrix_wdata[1][3], fifo_matrix_wdata[0][3]}),
+        .fifo_matrix_tx_wlast({fifo_matrix_wlast[4][3], fifo_matrix_wlast[3][3], fifo_matrix_wlast[2][3], fifo_matrix_wlast[1][3], fifo_matrix_wlast[0][3]}),
+        .fifo_matrix_tx_wvalid({fifo_matrix_wvalid[4][3], fifo_matrix_wvalid[3][3], fifo_matrix_wvalid[2][3], fifo_matrix_wvalid[1][3], fifo_matrix_wvalid[0][3]}),
+        .fifo_matrix_tx_wready({fifo_matrix_wready[4][3], fifo_matrix_wready[3][3], fifo_matrix_wready[2][3], fifo_matrix_wready[1][3], fifo_matrix_wready[0][3]}),
+
+        // from current to X
+        .fifo_matrix_rx_wdata({fifo_matrix_wdata[3][4], fifo_matrix_wdata[3][3], fifo_matrix_wdata[3][2], fifo_matrix_wdata[3][1], fifo_matrix_wdata[3][0]}),
+        .fifo_matrix_rx_wlast({fifo_matrix_wlast[3][4], fifo_matrix_wlast[3][3], fifo_matrix_wlast[3][2], fifo_matrix_wlast[3][1], fifo_matrix_wlast[3][0]}),
+        .fifo_matrix_rx_wvalid({fifo_matrix_wvalid[3][4], fifo_matrix_wvalid[3][3], fifo_matrix_wvalid[3][2], fifo_matrix_wvalid[3][1], fifo_matrix_wvalid[3][0]}),
+        .fifo_matrix_rx_wready({fifo_matrix_wready[3][4], fifo_matrix_wready[3][3], fifo_matrix_wready[3][2], fifo_matrix_wready[3][1], fifo_matrix_wready[3][0]}),
+
+        .gtx_clk(gtx_clk),
+        .gtx_clk90(gtx_clk90),
+
+        .rgmii_td(rgmii4_td),
+        .rgmii_tx_ctl(rgmii4_tx_ctl),
+        .rgmii_txc(rgmii4_txc),
+        .rgmii_rd(rgmii4_rd),
+        .rgmii_rx_ctl(rgmii4_rx_ctl),
+        .rgmii_rxc(rgmii4_rxc),
+
+        .stats_rx_bytes(stats_rx_bytes[3]),
+        .stats_rx_packets(stats_rx_packets[3]),
+        .stats_tx_bytes(stats_tx_bytes[3]),
+        .stats_tx_packets(stats_tx_packets[3])
     );
 
     // port 4 is os
