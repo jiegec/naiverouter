@@ -29,16 +29,16 @@ module router_top(
 
     input axis_clk,
     // from router to os
-    output [`BYTE_WIDTH-1:0] axis_rxd_tdata,
-    output axis_rxd_tlast,
-    input axis_rxd_tready,
-    output axis_rxd_tvalid,
+    output [`BYTE_WIDTH-1:0] axis_txd_tdata,
+    output axis_txd_tlast,
+    input axis_txd_tready,
+    output axis_txd_tvalid,
 
     // from os to router
-    input [`BYTE_WIDTH-1:0] axis_txd_tdata,
-    input axis_txd_tlast,
-    output axis_txd_tready,
-    input axis_txd_tvalid,
+    input [`BYTE_WIDTH-1:0] axis_rxd_tdata,
+    input axis_rxd_tlast,
+    output axis_rxd_tready,
+    input axis_rxd_tvalid,
     
     input [3:0] rgmii1_rd,
     input rgmii1_rx_ctl,
@@ -89,14 +89,14 @@ module router_top(
 	    .reset_n(reset_n),
 
 	    .axis_clk(axis_clk),
-	    .axis_rxd_tdata(axis_rxd_tdata),
-	    .axis_rxd_tlast(axis_rxd_tlast),
-	    .axis_rxd_tready(axis_rxd_tready),
-	    .axis_rxd_tvalid(axis_rxd_tvalid),
-	    .axis_txd_tdata(axis_txd_tdata),
-	    .axis_txd_tlast(axis_txd_tlast),
-	    .axis_txd_tready(axis_txd_tready),
-	    .axis_txd_tvalid(axis_txd_tvalid),
+	    .axis_rxd_tdata(axis_txd_tdata),
+	    .axis_rxd_tlast(axis_txd_tlast),
+	    .axis_rxd_tready(axis_txd_tready),
+	    .axis_rxd_tvalid(axis_txd_tvalid),
+	    .axis_txd_tdata(axis_rxd_tdata),
+	    .axis_txd_tlast(axis_rxd_tlast),
+	    .axis_txd_tready(axis_rxd_tready),
+	    .axis_txd_tvalid(axis_rxd_tvalid),
 
 	    .rgmii1_rd(rgmii1_rd),
 	    .rgmii1_rx_ctl(rgmii1_rx_ctl),
