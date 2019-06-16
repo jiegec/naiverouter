@@ -3,7 +3,7 @@
   <spirit:vendor>me.jiegec</spirit:vendor>
   <spirit:library>ip</spirit:library>
   <spirit:name>router</spirit:name>
-  <spirit:version>1.4</spirit:version>
+  <spirit:version>1.5</spirit:version>
   <spirit:busInterfaces>
     <spirit:busInterface>
       <spirit:name>os_rst</spirit:name>
@@ -522,7 +522,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>ba480e0e</spirit:value>
+            <spirit:value>4666df46</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -544,7 +544,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>ba480e0e</spirit:value>
+            <spirit:value>4666df46</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -1523,14 +1523,14 @@
     <spirit:fileSet>
       <spirit:name>xilinx_xpgui_view_fileset</spirit:name>
       <spirit:file>
-        <spirit:name>xgui/router_v1_4.tcl</spirit:name>
+        <spirit:name>xgui/router_v1_5.tcl</spirit:name>
         <spirit:fileType>tclSource</spirit:fileType>
         <spirit:userFileType>CHECKSUM_f92e9879</spirit:userFileType>
         <spirit:userFileType>XGUI_VERSION_2</spirit:userFileType>
       </spirit:file>
     </spirit:fileSet>
   </spirit:fileSets>
-  <spirit:description>router_v1_4</spirit:description>
+  <spirit:description>router_v1_5</spirit:description>
   <spirit:parameters>
     <spirit:parameter>
       <spirit:name>Component_Name</spirit:name>
@@ -1553,8 +1553,8 @@
         <xilinx:xpmLibrary>XPM_MEMORY</xilinx:xpmLibrary>
       </xilinx:xpmLibraries>
       <xilinx:vendorDisplayName>Jiajie Chen</xilinx:vendorDisplayName>
-      <xilinx:coreRevision>10</xilinx:coreRevision>
-      <xilinx:coreCreationDateTime>2019-06-10T08:44:50Z</xilinx:coreCreationDateTime>
+      <xilinx:coreRevision>16</xilinx:coreRevision>
+      <xilinx:coreCreationDateTime>2019-06-16T17:01:59Z</xilinx:coreCreationDateTime>
       <xilinx:tags>
         <xilinx:tag xilinx:name="user.org:user:router:1.0_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
         <xilinx:tag xilinx:name="me.jiegec:user:router:1.0_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
@@ -1563,12 +1563,56 @@
         <xilinx:tag xilinx:name="me.jiegec:ip:router:1.2_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
         <xilinx:tag xilinx:name="me.jiegec:ip:router:1.3_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
         <xilinx:tag xilinx:name="me.jiegec:ip:router:1.4_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4bf9fc8d_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@dec45ba_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7ba151c6_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5e740eda_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3d42a865_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@73a053e_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@e58aac1_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@51982a9e_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@31619b01_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@19f29804_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@75d5d9bb_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@41032f5c_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@63bde352_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3792fdc7_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6ddeeb40_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@499ce0bc_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@20665ba1_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@635b91e7_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3ae49aa3_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@27aaa19_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3e43f33b_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6abe4c66_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3fb69f06_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1b2ed163_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@608eedac_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@dd8aa96_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6ffdc59a_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@309d2f30_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@22447fd5_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5c1f8ffb_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@19903fe0_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@71208d51_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@77ef156a_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@46fbc89b_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6afde10e_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@461f5b37_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@686003fc_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6824a1d3_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@21ff5fbf_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@327b4215_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@12fa4494_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@26182085_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@75659413_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6eec4e09_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
       </xilinx:tags>
     </xilinx:coreExtensions>
     <xilinx:packagingInfo>
-      <xilinx:xilinxVersion>2018.1</xilinx:xilinxVersion>
+      <xilinx:xilinxVersion>2018.3</xilinx:xilinxVersion>
       <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="b55e9951"/>
-      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="33925529"/>
+      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="3202f78a"/>
       <xilinx:checksum xilinx:scope="ports" xilinx:value="22109bc5"/>
       <xilinx:checksum xilinx:scope="parameters" xilinx:value="442ecc43"/>
     </xilinx:packagingInfo>

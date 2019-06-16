@@ -449,7 +449,6 @@ module router(
 
     axis_data_fifo_0 axis_data_fifo_0_rx (
         .s_axis_aresetn(reset_n),
-        .m_axis_aresetn(reset_n),
         .s_axis_aclk(clk),
         .s_axis_tvalid(os_rxd_tvalid),
         .s_axis_tready(os_rxd_tready),
@@ -513,7 +512,6 @@ module router(
 
     axis_data_fifo_0 axis_data_fifo_0_tx (
         .s_axis_aresetn(reset_n),
-        .m_axis_aresetn(reset_n),
         .m_axis_aclk(clk),
         .m_axis_tvalid(os_txd_tvalid),
         .m_axis_tready(os_txd_tready),
