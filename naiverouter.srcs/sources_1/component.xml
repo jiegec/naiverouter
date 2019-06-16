@@ -511,10 +511,10 @@
         <spirit:language>SystemVerilog</spirit:language>
         <spirit:modelName>router_top</spirit:modelName>
         <spirit:fileSetRef>
-          <spirit:localName>xilinx_anylanguagesynthesis_xilinx_com_ip_axis_data_fifo_1_1__ref_view_fileset</spirit:localName>
+          <spirit:localName>xilinx_anylanguagesynthesis_xilinx_com_ip_tri_mode_ethernet_mac_9_0__ref_view_fileset</spirit:localName>
         </spirit:fileSetRef>
         <spirit:fileSetRef>
-          <spirit:localName>xilinx_anylanguagesynthesis_xilinx_com_ip_tri_mode_ethernet_mac_9_0__ref_view_fileset</spirit:localName>
+          <spirit:localName>xilinx_anylanguagesynthesis_xilinx_com_ip_axis_data_fifo_2_0__ref_view_fileset</spirit:localName>
         </spirit:fileSetRef>
         <spirit:fileSetRef>
           <spirit:localName>xilinx_anylanguagesynthesis_view_fileset</spirit:localName>
@@ -522,7 +522,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>4666df46</spirit:value>
+            <spirit:value>1e051d65</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -533,10 +533,10 @@
         <spirit:language>SystemVerilog</spirit:language>
         <spirit:modelName>router_top</spirit:modelName>
         <spirit:fileSetRef>
-          <spirit:localName>xilinx_anylanguagebehavioralsimulation_xilinx_com_ip_axis_data_fifo_1_1__ref_view_fileset</spirit:localName>
+          <spirit:localName>xilinx_anylanguagebehavioralsimulation_xilinx_com_ip_tri_mode_ethernet_mac_9_0__ref_view_fileset</spirit:localName>
         </spirit:fileSetRef>
         <spirit:fileSetRef>
-          <spirit:localName>xilinx_anylanguagebehavioralsimulation_xilinx_com_ip_tri_mode_ethernet_mac_9_0__ref_view_fileset</spirit:localName>
+          <spirit:localName>xilinx_anylanguagebehavioralsimulation_xilinx_com_ip_axis_data_fifo_2_0__ref_view_fileset</spirit:localName>
         </spirit:fileSetRef>
         <spirit:fileSetRef>
           <spirit:localName>xilinx_anylanguagebehavioralsimulation_view_fileset</spirit:localName>
@@ -544,7 +544,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>4666df46</spirit:value>
+            <spirit:value>1e051d65</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -559,6 +559,21 @@
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
             <spirit:value>f92e9879</spirit:value>
+          </spirit:parameter>
+        </spirit:parameters>
+      </spirit:view>
+      <spirit:view>
+        <spirit:name>xilinx_testbench</spirit:name>
+        <spirit:displayName>Test Bench</spirit:displayName>
+        <spirit:envIdentifier>:vivado.xilinx.com:simulation.testbench</spirit:envIdentifier>
+        <spirit:modelName>testbench_routing_table</spirit:modelName>
+        <spirit:fileSetRef>
+          <spirit:localName>xilinx_testbench_view_fileset</spirit:localName>
+        </spirit:fileSetRef>
+        <spirit:parameters>
+          <spirit:parameter>
+            <spirit:name>viewChecksum</spirit:name>
+            <spirit:value>358b886e</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -1383,11 +1398,11 @@
         <spirit:userFileType>xci</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>ip/tri_mode_ethernet_mac_0_shared/tri_mode_ethernet_mac_0_shared.xci</spirit:name>
+        <spirit:name>ip/tri_mode_ethernet_mac_0/tri_mode_ethernet_mac_0.xci</spirit:name>
         <spirit:userFileType>xci</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>ip/tri_mode_ethernet_mac_0/tri_mode_ethernet_mac_0.xci</spirit:name>
+        <spirit:name>ip/tri_mode_ethernet_mac_0_shared/tri_mode_ethernet_mac_0_shared.xci</spirit:name>
         <spirit:userFileType>xci</spirit:userFileType>
       </spirit:file>
       <spirit:file>
@@ -1397,6 +1412,7 @@
       <spirit:file>
         <spirit:name>new/constants.vh</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
+        <spirit:isIncludeFile>true</spirit:isIncludeFile>
       </spirit:file>
       <spirit:file>
         <spirit:name>new/arp_table.sv</spirit:name>
@@ -1411,6 +1427,10 @@
         <spirit:fileType>systemVerilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
+        <spirit:name>new/router.sv</spirit:name>
+        <spirit:fileType>systemVerilogSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
         <spirit:name>new/routing_table.sv</spirit:name>
         <spirit:fileType>systemVerilogSource</spirit:fileType>
       </spirit:file>
@@ -1419,31 +1439,26 @@
         <spirit:fileType>systemVerilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>new/router.sv</spirit:name>
-        <spirit:fileType>systemVerilogSource</spirit:fileType>
-        <spirit:userFileType>CHECKSUM_67721051</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
         <spirit:name>new/router_top.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
         <spirit:userFileType>CHECKSUM_7fafe94a</spirit:userFileType>
       </spirit:file>
     </spirit:fileSet>
     <spirit:fileSet>
-      <spirit:name>xilinx_anylanguagesynthesis_xilinx_com_ip_axis_data_fifo_1_1__ref_view_fileset</spirit:name>
+      <spirit:name>xilinx_anylanguagesynthesis_xilinx_com_ip_tri_mode_ethernet_mac_9_0__ref_view_fileset</spirit:name>
       <spirit:vendorExtensions>
         <xilinx:subCoreRef>
-          <xilinx:componentRef xsi:type="xilinx:componentRefType" xilinx:vendor="xilinx.com" xilinx:library="ip" xilinx:name="axis_data_fifo" xilinx:version="1.1">
+          <xilinx:componentRef xsi:type="xilinx:componentRefType" xilinx:vendor="xilinx.com" xilinx:library="ip" xilinx:name="tri_mode_ethernet_mac" xilinx:version="9.0">
             <xilinx:mode xilinx:name="create_mode"/>
           </xilinx:componentRef>
         </xilinx:subCoreRef>
       </spirit:vendorExtensions>
     </spirit:fileSet>
     <spirit:fileSet>
-      <spirit:name>xilinx_anylanguagesynthesis_xilinx_com_ip_tri_mode_ethernet_mac_9_0__ref_view_fileset</spirit:name>
+      <spirit:name>xilinx_anylanguagesynthesis_xilinx_com_ip_axis_data_fifo_2_0__ref_view_fileset</spirit:name>
       <spirit:vendorExtensions>
         <xilinx:subCoreRef>
-          <xilinx:componentRef xilinx:vendor="xilinx.com" xilinx:library="ip" xilinx:name="tri_mode_ethernet_mac" xilinx:version="9.0">
+          <xilinx:componentRef xilinx:vendor="xilinx.com" xilinx:library="ip" xilinx:name="axis_data_fifo" xilinx:version="2.0">
             <xilinx:mode xilinx:name="create_mode"/>
           </xilinx:componentRef>
         </xilinx:subCoreRef>
@@ -1456,11 +1471,11 @@
         <spirit:userFileType>xci</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>ip/tri_mode_ethernet_mac_0_shared/tri_mode_ethernet_mac_0_shared.xci</spirit:name>
+        <spirit:name>ip/tri_mode_ethernet_mac_0/tri_mode_ethernet_mac_0.xci</spirit:name>
         <spirit:userFileType>xci</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>ip/tri_mode_ethernet_mac_0/tri_mode_ethernet_mac_0.xci</spirit:name>
+        <spirit:name>ip/tri_mode_ethernet_mac_0_shared/tri_mode_ethernet_mac_0_shared.xci</spirit:name>
         <spirit:userFileType>xci</spirit:userFileType>
       </spirit:file>
       <spirit:file>
@@ -1470,6 +1485,7 @@
       <spirit:file>
         <spirit:name>new/constants.vh</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
+        <spirit:isIncludeFile>true</spirit:isIncludeFile>
       </spirit:file>
       <spirit:file>
         <spirit:name>new/arp_table.sv</spirit:name>
@@ -1484,6 +1500,10 @@
         <spirit:fileType>systemVerilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
+        <spirit:name>new/router.sv</spirit:name>
+        <spirit:fileType>systemVerilogSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
         <spirit:name>new/routing_table.sv</spirit:name>
         <spirit:fileType>systemVerilogSource</spirit:fileType>
       </spirit:file>
@@ -1492,23 +1512,9 @@
         <spirit:fileType>systemVerilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>new/router.sv</spirit:name>
-        <spirit:fileType>systemVerilogSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
         <spirit:name>new/router_top.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
       </spirit:file>
-    </spirit:fileSet>
-    <spirit:fileSet>
-      <spirit:name>xilinx_anylanguagebehavioralsimulation_xilinx_com_ip_axis_data_fifo_1_1__ref_view_fileset</spirit:name>
-      <spirit:vendorExtensions>
-        <xilinx:subCoreRef>
-          <xilinx:componentRef xilinx:vendor="xilinx.com" xilinx:library="ip" xilinx:name="axis_data_fifo" xilinx:version="1.1">
-            <xilinx:mode xilinx:name="create_mode"/>
-          </xilinx:componentRef>
-        </xilinx:subCoreRef>
-      </spirit:vendorExtensions>
     </spirit:fileSet>
     <spirit:fileSet>
       <spirit:name>xilinx_anylanguagebehavioralsimulation_xilinx_com_ip_tri_mode_ethernet_mac_9_0__ref_view_fileset</spirit:name>
@@ -1521,12 +1527,32 @@
       </spirit:vendorExtensions>
     </spirit:fileSet>
     <spirit:fileSet>
+      <spirit:name>xilinx_anylanguagebehavioralsimulation_xilinx_com_ip_axis_data_fifo_2_0__ref_view_fileset</spirit:name>
+      <spirit:vendorExtensions>
+        <xilinx:subCoreRef>
+          <xilinx:componentRef xilinx:vendor="xilinx.com" xilinx:library="ip" xilinx:name="axis_data_fifo" xilinx:version="2.0">
+            <xilinx:mode xilinx:name="create_mode"/>
+          </xilinx:componentRef>
+        </xilinx:subCoreRef>
+      </spirit:vendorExtensions>
+    </spirit:fileSet>
+    <spirit:fileSet>
       <spirit:name>xilinx_xpgui_view_fileset</spirit:name>
       <spirit:file>
         <spirit:name>xgui/router_v1_5.tcl</spirit:name>
         <spirit:fileType>tclSource</spirit:fileType>
         <spirit:userFileType>CHECKSUM_f92e9879</spirit:userFileType>
         <spirit:userFileType>XGUI_VERSION_2</spirit:userFileType>
+      </spirit:file>
+    </spirit:fileSet>
+    <spirit:fileSet>
+      <spirit:name>xilinx_testbench_view_fileset</spirit:name>
+      <spirit:file>
+        <spirit:name>../sim_1/new/testbench_routing_table.sv</spirit:name>
+        <spirit:fileType>systemVerilogSource</spirit:fileType>
+        <spirit:userFileType>USED_IN_implementation</spirit:userFileType>
+        <spirit:userFileType>USED_IN_simulation</spirit:userFileType>
+        <spirit:userFileType>USED_IN_synthesis</spirit:userFileType>
       </spirit:file>
     </spirit:fileSet>
   </spirit:fileSets>
@@ -1553,8 +1579,8 @@
         <xilinx:xpmLibrary>XPM_MEMORY</xilinx:xpmLibrary>
       </xilinx:xpmLibraries>
       <xilinx:vendorDisplayName>Jiajie Chen</xilinx:vendorDisplayName>
-      <xilinx:coreRevision>16</xilinx:coreRevision>
-      <xilinx:coreCreationDateTime>2019-06-16T17:01:59Z</xilinx:coreCreationDateTime>
+      <xilinx:coreRevision>17</xilinx:coreRevision>
+      <xilinx:coreCreationDateTime>2019-06-16T17:08:49Z</xilinx:coreCreationDateTime>
       <xilinx:tags>
         <xilinx:tag xilinx:name="user.org:user:router:1.0_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
         <xilinx:tag xilinx:name="me.jiegec:user:router:1.0_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
@@ -1607,12 +1633,43 @@
         <xilinx:tag xilinx:name="ui.data.coregen.dd@26182085_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
         <xilinx:tag xilinx:name="ui.data.coregen.dd@75659413_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
         <xilinx:tag xilinx:name="ui.data.coregen.dd@6eec4e09_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3802eefb_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@379c2f2_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2c0b046b_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5c5ec448_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@79242897_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@66b7f1b0_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2344172a_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@497f9e6c_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@604733f4_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@138a01ae_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3f90d357_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@14d8df00_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@45a295a0_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@e50c4e8_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5ebad8f4_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@19e3a281_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@101f7217_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@654dda1a_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2036f148_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@d902c99_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@152c29fb_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3bb63b98_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1742dec0_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@d847b71_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5d4332ca_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7ea25b55_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3d26977d_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6fa9f5d2_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@236b9df1_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1beaae27_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3c5747e3_ARCHIVE_LOCATION">/home/oslab/naiverouter/naiverouter.srcs/sources_1</xilinx:tag>
       </xilinx:tags>
     </xilinx:coreExtensions>
     <xilinx:packagingInfo>
       <xilinx:xilinxVersion>2018.3</xilinx:xilinxVersion>
       <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="b55e9951"/>
-      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="3202f78a"/>
+      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="3110a61e"/>
       <xilinx:checksum xilinx:scope="ports" xilinx:value="22109bc5"/>
       <xilinx:checksum xilinx:scope="parameters" xilinx:value="442ecc43"/>
     </xilinx:packagingInfo>
