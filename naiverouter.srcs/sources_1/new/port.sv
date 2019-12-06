@@ -704,7 +704,13 @@ module port #(
                         routing_arbiter_req <= 0;
                         ip_lookup_routing <= 1;
                     end else if (routing_arbiter_granted && routing_lookup_output_valid) begin
-                        rx_nexthop_ipv4_addr <= routing_lookup_via_ip;
+                        if (routing_lookup_via_ip == `IPV4_WIDTH'b0) begin
+                            // direct routes
+                            rx_nexthop_ipv4_addr <= rx_saved_ipv4_dst_addr;
+                        end else begin
+                            // indirect routes
+                            rx_nexthop_ipv4_addr <= routing_lookup_via_ip;
+                        end
                         rx_nexthop_port <= routing_lookup_via_port;
                         routing_lookup_valid <= 0;
                         routing_arbiter_req <= 0;
