@@ -755,7 +755,7 @@ module port #(
                         // send arp request
                         arp_written <= 1;
                         rx_outbound <= 1;
-                        rx_outbound_arp_response <= {`MAC_WIDTH'hffffffffffff, port_mac[rx_saved_port_id], `VLAN_ETHERTYPE, 8'h00, rx_nexthop_vlan_tag, `ARP_ETHERTYPE, 16'h0001, `IPV4_ETHERTYPE, 8'h06, 8'h04, `ARP_OPCODE_REQUEST, port_mac[rx_saved_port_id], port_ip[rx_nexthop_port], `MAC_WIDTH'h0, rx_nexthop_ipv4_addr};
+                        rx_outbound_arp_response <= {`MAC_WIDTH'hffffffffffff, port_mac[rx_nexthop_port], `VLAN_ETHERTYPE, 8'h00, rx_nexthop_vlan_tag, `ARP_ETHERTYPE, 16'h0001, `IPV4_ETHERTYPE, 8'h06, 8'h04, `ARP_OPCODE_REQUEST, port_mac[rx_saved_port_id], port_ip[rx_nexthop_port], `MAC_WIDTH'h0, rx_nexthop_ipv4_addr};
                         rx_outbound_length <= `ARP_RESPONSE_COUNT;
                         rx_outbound_counter <= 0;
                         rx_outbound_port_id <= `ROUTER_PORT_ID;
