@@ -394,6 +394,8 @@ module port #(
     logic [`MAC_WIDTH-1:0] rx_saved_dst_mac_addr;
     logic [`MAC_WIDTH-1:0] rx_saved_src_mac_addr;
     logic [`ETHERTYPE_WIDTH-1:0] rx_saved_ethertype;
+    logic [`VLAN_TAG_WIDTH-1:0] rx_saved_vlan_tag;
+    logic [`ETHERTYPE_WIDTH-1:0] rx_saved_ethertype2;
     // ARP
     logic [`IPV4_WIDTH-1:0] rx_saved_arp_src_ipv4_addr;
     logic [`IPV4_WIDTH-1:0] rx_saved_arp_dst_ipv4_addr;
@@ -459,10 +461,13 @@ module port #(
             rx_data_ren <= 0;
             rx_read <= 0;
             rx_read_data <= 0;
+            rx_read_length <= 0;
 
             rx_saved_dst_mac_addr <= 0;
             rx_saved_src_mac_addr <= 0;
             rx_saved_ethertype <= 0;
+            rx_saved_vlan_tag <= 0;
+            rx_saved_ethertype2 <= 0;
 
             rx_saved_arp_src_ipv4_addr <= 0;
             rx_saved_arp_dst_ipv4_addr <= 0;
@@ -512,6 +517,8 @@ module port #(
                 rx_saved_dst_mac_addr <= 0;
                 rx_saved_src_mac_addr <= 0;
                 rx_saved_ethertype <= 0;
+                rx_saved_vlan_tag <= 0;
+                rx_saved_ethertype2 <= 0;
 
                 rx_saved_arp_src_ipv4_addr <= 0;
                 rx_saved_arp_dst_ipv4_addr <= 0;
@@ -576,6 +583,12 @@ module port #(
                     if (rx_read_counter >= `ETHERTYPE_BEGIN && rx_read_counter < `ETHERTYPE_END) begin
                         rx_saved_ethertype <= {rx_saved_ethertype[`ETHERTYPE_WIDTH-`BYTE_WIDTH-1:0], rx_read_data};
                     end
+                    if (rx_read_counter >= `VLAN_TAG_BEGIN && rx_read_counter < `VLAN_TAG_END) begin
+                        rx_saved_vlan_tag <= {rx_saved_vlan_tag[`VLAN_TAG_WIDTH-`BYTE_WIDTH-1:0], rx_read_data};
+                    end
+                    if (rx_read_counter >= `ETHERTYPE2_BEGIN && rx_read_counter < `ETHERTYPE2_END) begin
+                        rx_saved_ethertype2 <= {rx_saved_ethertype2[`ETHERTYPE_WIDTH-`BYTE_WIDTH-1:0], rx_read_data};
+                    end
 
                     // ARP Handling
                     if (rx_read_counter >= `ARP_SRC_IPV4_BEGIN && rx_read_counter < `ARP_SRC_IPV4_END) begin
@@ -588,38 +601,26 @@ module port #(
                         rx_saved_arp_opcode <= {rx_saved_arp_opcode[`ARP_OPCODE_COUNT*`BYTE_WIDTH-`BYTE_WIDTH-1:0], rx_read_data};
                     end
 
-                    if (rx_saved_ethertype == `ARP_ETHERTYPE && rx_read_counter >= `ARP_DST_IPV4_END && !arp_write && !arp_written) begin
+                    if (rx_saved_ethertype2 == `ARP_ETHERTYPE && rx_read_counter >= `ARP_DST_IPV4_END && !arp_write && !arp_written) begin
                         arp_written <= 1;
                         arp_write <= 1;
                         arp_insert_valid <= 0;
                         arp_insert_ip <= rx_saved_arp_src_ipv4_addr;
                         arp_insert_mac <= rx_saved_src_mac_addr;
                         arp_insert_port <= port_id;
-                        `ifdef HARDWARE_CONTROL_PLANE
-                            if (rx_saved_arp_opcode == `ARP_OPCODE_REQUEST && rx_saved_arp_dst_ipv4_addr == port_ip[port_id]) begin
-                                // send arp reply
-                                rx_outbound <= 1;
-                                rx_outbound_port_id <= port_id;
-                                rx_outbound_arp_response <= {rx_saved_src_mac_addr, port_mac, `ARP_ETHERTYPE, 16'h0001, `IPV4_ETHERTYPE, 8'h06, 8'h04, `ARP_OPCODE_REPLY, port_mac, port_ip[port_id], rx_saved_src_mac_addr, rx_saved_arp_src_ipv4_addr};
-                                rx_outbound_length <= `ARP_RESPONSE_COUNT;
-                                rx_outbound_counter <= 0;
-                                // send to same port
-                                fifo_matrix_rx_wvalid[port_id] <= 1;
-                            end
-                        `else
-                            // when HARDWARE_CONTROL_PLANE is not defined, send packets to OS directly when ip matches
-                            if (rx_saved_arp_opcode == `ARP_OPCODE_REQUEST && rx_saved_arp_dst_ipv4_addr == port_ip[port_id]) begin
-                                // send arp reply
-                                rx_outbound <= 1;
-                                rx_outbound_port_id <= `OS_PORT_ID;
-                                // pass original request to os
-                                rx_outbound_arp_response <= {port_mac, rx_saved_src_mac_addr, `ARP_ETHERTYPE, 16'h0001, `IPV4_ETHERTYPE, 8'h06, 8'h04, `ARP_OPCODE_REQUEST, rx_saved_src_mac_addr, rx_saved_arp_src_ipv4_addr, port_mac, port_ip[port_id]};
-                                rx_outbound_length <= `ARP_RESPONSE_COUNT;
-                                rx_outbound_counter <= 0;
-                                // send to os port
-                                fifo_matrix_rx_wvalid[`OS_PORT_ID] <= 1;
-                            end
-                        `endif
+
+                        // send packets to OS directly when ip matches
+                        if (rx_saved_arp_opcode == `ARP_OPCODE_REQUEST && rx_saved_arp_dst_ipv4_addr == port_ip[port_id]) begin
+                            // send arp reply
+                            rx_outbound <= 1;
+                            rx_outbound_port_id <= `OS_PORT_ID;
+                            // pass original request to os
+                            rx_outbound_arp_response <= {port_mac, rx_saved_src_mac_addr, `ARP_ETHERTYPE, 16'h0001, `IPV4_ETHERTYPE, 8'h06, 8'h04, `ARP_OPCODE_REQUEST, rx_saved_src_mac_addr, rx_saved_arp_src_ipv4_addr, port_mac, port_ip[port_id]};
+                            rx_outbound_length <= `ARP_RESPONSE_COUNT;
+                            rx_outbound_counter <= 0;
+                            // send to os port
+                            fifo_matrix_rx_wvalid[`OS_PORT_ID] <= 1;
+                        end
                     end
 
                     // IPV4 Handling
@@ -645,19 +646,14 @@ module port #(
                         end
                     end
 
-                    if (rx_saved_ethertype == `IPV4_ETHERTYPE && rx_read_counter == rx_read_length - 2 && !ip_routing && !ip_routed) begin
-                        `ifndef HARDWARE_CONTROL_PLANE
+                    if (rx_saved_ethertype2 == `IPV4_ETHERTYPE && rx_read_counter == rx_read_length - 2 && !ip_routing && !ip_routed) begin
                         // multicast should be sent to os
                         if (rx_saved_ipv4_dst_addr != port_ip[port_id] && rx_saved_ipv4_ttl > 1 && rx_saved_ipv4_dst_addr[`IPV4_WIDTH-1:`IPV4_WIDTH-4] != 4'b1110) begin
-                        `else
-                        if (rx_saved_ipv4_dst_addr != port_ip[port_id] && rx_saved_ipv4_ttl > 1) begin
-                        `endif
                             ip_routed <= 1;
                             ip_routing <= 1;
                             ip_lookup_routing <= 0;
                             routing_lookup_valid <= 0;
                         end
-                        `ifndef HARDWARE_CONTROL_PLANE
                         else begin
                             // should send to os
                             ip_routed <= 1;
@@ -676,7 +672,6 @@ module port #(
                             rx_outbound_port_id <= `OS_PORT_ID;
                             fifo_matrix_rx_wvalid[`OS_PORT_ID] <= 1;
                         end
-                        `endif
                     end
                 end
                 if (arp_write) begin

@@ -1,8 +1,6 @@
 // 7 preamble + 1 sfd + 12 mac + 2 ethertype + 1500 payload + 4 fcs
 `define MAX_ETHERNET_FRAME_BYTES 1526
 
-// controls whether the control logic is handled in hardware or software
-// `define HARDWARE_CONTROL_PLANE 1
 `define OS_PORT_ID 1'b1
 `define PORT_OS_COUNT 2
 `define PORT_OS_WIDTH 1
@@ -23,7 +21,6 @@
 
 `define IPV4_WIDTH 32
 `define MAC_WIDTH 48
-`define ETHERTYPE_WIDTH 16
 `define PORT_COUNT 4
 `define PORT_WIDTH 2
 
@@ -35,8 +32,13 @@
 `define DST_MAC_END 6
 `define SRC_MAC_BEGIN 6
 `define SRC_MAC_END 12
+
+`define ETHERTYPE_WIDTH 16
 `define ETHERTYPE_BEGIN 12
-`define ETHERTYPE_END 16
+`define ETHERTYPE_END 14
+`define VLAN_TAG_WIDTH 16
+`define VLAN_TAG_BEGIN 14
+`define VLAN_TAG_END 16
 `define ETHERTYPE2_BEGIN 16
 `define ETHERTYPE2_END 18
 
