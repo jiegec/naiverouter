@@ -80,10 +80,10 @@ module port #(
     output logic rgmii_txc,
 
     // statistics
-    output logic [`STATS_WIDTH-1:0] stats_rx_packets,
-    output logic [`STATS_WIDTH-1:0] stats_rx_bytes,
-    output logic [`STATS_WIDTH-1:0] stats_tx_packets,
-    output logic [`STATS_WIDTH-1:0] stats_tx_bytes
+    output logic [`PORT_COUNT-1:0][`STATS_WIDTH-1:0] stats_rx_packets,
+    output logic [`PORT_COUNT-1:0][`STATS_WIDTH-1:0] stats_rx_bytes,
+    output logic [`PORT_COUNT-1:0][`STATS_WIDTH-1:0] stats_tx_packets,
+    output logic [`PORT_COUNT-1:0][`STATS_WIDTH-1:0] stats_tx_bytes
     );
 
     logic reset;
@@ -449,9 +449,9 @@ module port #(
     logic rx_outbound;
     logic [`PORT_OS_COUNT-1:0] rx_outbound_port_id;
 
-    logic [`PORT_WIDTH-1:0] port_id;
-    logic [`IPV4_WIDTH-1:0] port_ip;
-    logic [`MAC_WIDTH-1:0] port_mac;
+    logic [`PORT_WIDTH-1:0] port_id = 0;
+    logic [`IPV4_WIDTH-1:0] port_ip = 0;
+    logic [`MAC_WIDTH-1:0] port_mac = 0;
 
     always_ff @ (posedge clk) begin
         if (reset) begin

@@ -191,10 +191,10 @@ module router(
         .rgmii_rx_ctl(rgmii_rx_ctl),
         .rgmii_rxc(rgmii_rxc),
         
-        .stats_rx_bytes(stats_rx_bytes[0]),
-        .stats_rx_packets(stats_rx_packets[0]),
-        .stats_tx_bytes(stats_tx_bytes[0]),
-        .stats_tx_packets(stats_tx_packets[0])
+        .stats_rx_bytes(stats_rx_bytes),
+        .stats_rx_packets(stats_rx_packets),
+        .stats_tx_bytes(stats_tx_bytes),
+        .stats_tx_packets(stats_tx_packets)
     );
 
     // port 1 is os
