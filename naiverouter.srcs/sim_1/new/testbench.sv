@@ -178,25 +178,24 @@ module testbench(
         .os_en(0)
     );
 
-    logic even = 0;
-    logic [7:0] data = 0;
+    logic [3:0] data = 0;
     logic active = 0;
 
     always @ (posedge rgmii_txc) begin
         if (rgmii_tx_ctl) begin
-            if (even == 0) begin
-                data <= rgmii_td;
-            end else begin
-                $write("%x ", {data[3:0], rgmii_td});
-                data <= 0;
-            end
-            even <= ~even;
+            data <= rgmii_td;
             active <= 1;
         end else begin
             if (active) begin
                 $display("");
                 active <= 0;
             end
+        end
+    end
+
+    always @ (negedge rgmii_txc) begin
+        if (active) begin
+            $write("%x ", {rgmii_td, data});
         end
     end
 endmodule
