@@ -3,9 +3,9 @@
 
 // controls whether the control logic is handled in hardware or software
 // `define HARDWARE_CONTROL_PLANE 1
-`define OS_PORT_ID 3'b100
-`define PORT_OS_COUNT 8
-`define PORT_OS_WIDTH 3
+`define OS_PORT_ID 1'b1
+`define PORT_OS_COUNT 2
+`define PORT_OS_WIDTH 1
 
 `define STATS_WIDTH 32
 
@@ -26,7 +26,6 @@
 `define ETHERTYPE_WIDTH 16
 `define PORT_COUNT 4
 `define PORT_WIDTH 2
-`define ENABLE_PORT_COUNT 2
 
 // actual (`PORT_WIDTH+`IPV4_WIDTH+`IPV4_WIDTH+`IPV4_WIDTH), rounded up to 2's pow
 `define ROUTING_TABLE_ENTRY_WIDTH 128

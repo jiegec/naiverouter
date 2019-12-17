@@ -160,19 +160,9 @@ module testbench(
         .axis_rxd_tlast(1'b0),
         .axis_rxd_tvalid(1'b0),
 
-        .rgmii1_rd(rgmii_rd),
-        .rgmii1_rx_ctl(rgmii_rx_ctl),
-        .rgmii1_rxc(rgmii_rxc),
-
-        .rgmii2_rd(0),
-        .rgmii2_rx_ctl(0),
-        .rgmii2_rxc(rgmii_rxc),
-        .rgmii3_rd(0),
-        .rgmii3_rx_ctl(0),
-        .rgmii3_rxc(rgmii_rxc),
-        .rgmii4_rd(0),
-        .rgmii4_rx_ctl(0),
-        .rgmii4_rxc(rgmii_rxc),
+        .rgmii_rd(rgmii_rd),
+        .rgmii_rx_ctl(rgmii_rx_ctl),
+        .rgmii_rxc(rgmii_rxc),
 
         .os_clk(clk_50M),
         .os_addr(0),

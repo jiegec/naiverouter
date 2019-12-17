@@ -28,13 +28,7 @@ module port #(
     input gtx_clk, // 125MHz
     input reset_n,
 
-    input [`PORT_WIDTH-1:0] port_id,
-    input [`PORT_COUNT-1:0][`IPV4_WIDTH-1:0] port_ip,
-    input [`MAC_WIDTH-1:0] port_mac,
-
     // ARP table
-    output logic arp_arbiter_req,
-    input arp_arbiter_granted,
     output logic [`IPV4_WIDTH-1:0] arp_lookup_ip,
     input [`MAC_WIDTH-1:0] arp_lookup_mac,
     input [`PORT_WIDTH-1:0] arp_lookup_port,
@@ -48,8 +42,6 @@ module port #(
     input logic arp_insert_ready,
 
     // Routing table
-    output logic routing_arbiter_req,
-    input routing_arbiter_granted,
     output logic [`IPV4_WIDTH-1:0] routing_lookup_dest_ip,
     input [`IPV4_WIDTH-1:0] routing_lookup_via_ip,
     input [`PORT_WIDTH-1:0] routing_lookup_via_port,
@@ -457,6 +449,10 @@ module port #(
     logic rx_outbound;
     logic [`PORT_OS_COUNT-1:0] rx_outbound_port_id;
 
+    logic [`PORT_WIDTH-1:0] port_id;
+    logic [`IPV4_WIDTH-1:0] port_ip;
+    logic [`MAC_WIDTH-1:0] port_mac;
+
     always_ff @ (posedge clk) begin
         if (reset) begin
             rx_len_ren <= 0;
@@ -491,7 +487,6 @@ module port #(
             ip_lookup_routing <= 0;
             routing_lookup_valid <= 0;
             routing_lookup_dest_ip <= 0;
-            routing_arbiter_req <= 0;
             arp_lookup_ip_valid <= 0;
             arp_lookup_ip <= 0;
 
@@ -596,7 +591,6 @@ module port #(
                     if (rx_saved_ethertype == `ARP_ETHERTYPE && rx_read_counter >= `ARP_DST_IPV4_END && !arp_write && !arp_written) begin
                         arp_written <= 1;
                         arp_write <= 1;
-                        arp_arbiter_req <= 1;
                         arp_insert_valid <= 0;
                         arp_insert_ip <= rx_saved_arp_src_ipv4_addr;
                         arp_insert_mac <= rx_saved_src_mac_addr;
@@ -661,7 +655,6 @@ module port #(
                             ip_routed <= 1;
                             ip_routing <= 1;
                             ip_lookup_routing <= 0;
-                            routing_arbiter_req <= 1;
                             routing_lookup_valid <= 0;
                         end
                         `ifndef HARDWARE_CONTROL_PLANE
@@ -687,23 +680,21 @@ module port #(
                     end
                 end
                 if (arp_write) begin
-                    if (arp_arbiter_granted && arp_insert_ready) begin
+                    if (arp_insert_ready) begin
                         arp_insert_valid <= 1;
                         arp_write <= 0;
-                        arp_arbiter_req <= 0;
                     end
                 end
                 // lookup via ip
                 if (ip_routing && !ip_lookup_routing) begin
-                    if (routing_arbiter_granted && routing_lookup_ready && !routing_lookup_valid) begin
+                    if (routing_lookup_ready && !routing_lookup_valid) begin
                         routing_lookup_dest_ip <= rx_saved_ipv4_dst_addr;
                         routing_lookup_valid <= 1;
-                    end else if (routing_arbiter_granted && routing_lookup_not_found) begin
+                    end else if (routing_lookup_not_found) begin
                         ip_routing <= 0;
                         routing_lookup_valid <= 0;
-                        routing_arbiter_req <= 0;
                         ip_lookup_routing <= 1;
-                    end else if (routing_arbiter_granted && routing_lookup_output_valid) begin
+                    end else if (routing_lookup_output_valid) begin
                         if (routing_lookup_via_ip == `IPV4_WIDTH'b0) begin
                             // direct routes
                             rx_nexthop_ipv4_addr <= rx_saved_ipv4_dst_addr;
@@ -713,7 +704,6 @@ module port #(
                         end
                         rx_nexthop_port <= routing_lookup_via_port;
                         routing_lookup_valid <= 0;
-                        routing_arbiter_req <= 0;
                         rx_found_nexthop_ipv4 <= 1;
                         ip_lookup_routing <= 1;
                     end
@@ -722,13 +712,11 @@ module port #(
                     // next hop is found, lookup its mac and port now
                     if (!rx_lookup_nexthop_mac) begin
                         rx_lookup_nexthop_mac <= 1;
-                        arp_arbiter_req <= 1;
-                    end else if (rx_lookup_nexthop_mac && arp_arbiter_granted && !arp_lookup_mac_valid && !arp_lookup_mac_not_found) begin
+                    end else if (rx_lookup_nexthop_mac && !arp_lookup_mac_valid && !arp_lookup_mac_not_found) begin
                         arp_lookup_ip_valid <= 1;
                         arp_lookup_ip <= rx_nexthop_ipv4_addr;
-                    end else if (rx_lookup_nexthop_mac && arp_arbiter_granted && arp_lookup_mac_valid) begin
+                    end else if (rx_lookup_nexthop_mac && arp_lookup_mac_valid) begin
                         arp_lookup_ip_valid <= 0;
-                        arp_arbiter_req <= 0;
                         ip_lookup_routing <= 0;
                         rx_outbound <= 1;
                         rx_outbound_length <= rx_read_length - 4; // skip fcs
@@ -746,9 +734,8 @@ module port #(
                         end else begin
                             rx_saved_ipv4_checksum <= rx_saved_ipv4_checksum + 16'h0100;
                         end
-                    end else if (rx_lookup_nexthop_mac && arp_arbiter_granted && arp_lookup_mac_not_found) begin
+                    end else if (rx_lookup_nexthop_mac && arp_lookup_mac_not_found) begin
                         arp_lookup_ip_valid <= 0;
-                        arp_arbiter_req <= 0;
                         ip_lookup_routing <= 0;
                         ip_routing <= 0;
                         // send arp request
