@@ -410,6 +410,8 @@ module port #(
 
     logic [`IPV4_WIDTH-1:0] rx_nexthop_ipv4_addr;
     logic [`PORT_WIDTH-1:0] rx_nexthop_port;
+    logic [`BYTE_WIDTH-1:0] rx_nexthop_vlan_tag;
+    assign rx_nexthop_vlan_tag = rx_nexthop_port + 1;
     logic [`MAC_WIDTH-1:0] rx_nexthop_mac_addr;
     //logic [`MAX_ETHERNET_FRAME_BYTES*`BYTE_WIDTH-1:0] rx_saved_ipv4_packet;
     logic rx_found_nexthop_ipv4;
@@ -452,7 +454,7 @@ module port #(
     // data transfer is working
     logic rx_outbound;
     logic [`PORT_OS_COUNT-1:0] rx_outbound_port_id;
-    logic [`PORT_WIDTH-1:0] rx_outbound_vlan_tag;
+    logic [`BYTE_WIDTH-1:0] rx_outbound_vlan_tag;
 
     logic [`PORT_COUNT-1:0][`IPV4_WIDTH-1:0] port_ip = {
         `IPV4_WIDTH'h0a000301, // port 3 10.0.3.1
@@ -753,11 +755,11 @@ module port #(
                         // send arp request
                         arp_written <= 1;
                         rx_outbound <= 1;
-                        rx_outbound_arp_response <= {`MAC_WIDTH'hffffffffffff, port_mac[rx_saved_port_id], `ARP_ETHERTYPE, 16'h0001, `IPV4_ETHERTYPE, 8'h06, 8'h04, `ARP_OPCODE_REQUEST, port_mac[rx_saved_port_id], port_ip[rx_nexthop_port], `MAC_WIDTH'h0, rx_nexthop_ipv4_addr};
+                        rx_outbound_arp_response <= {`MAC_WIDTH'hffffffffffff, port_mac[rx_saved_port_id], `VLAN_ETHERTYPE, 8'h00, rx_nexthop_vlan_tag, `ARP_ETHERTYPE, 16'h0001, `IPV4_ETHERTYPE, 8'h06, 8'h04, `ARP_OPCODE_REQUEST, port_mac[rx_saved_port_id], port_ip[rx_nexthop_port], `MAC_WIDTH'h0, rx_nexthop_ipv4_addr};
                         rx_outbound_length <= `ARP_RESPONSE_COUNT;
                         rx_outbound_counter <= 0;
                         rx_outbound_port_id <= `ROUTER_PORT_ID;
-                        rx_outbound_vlan_tag <= rx_nexthop_port;
+                        rx_outbound_vlan_tag <= rx_nexthop_port + 1;
                         // send to router port
                         fifo_matrix_rx_wvalid[`ROUTER_PORT_ID] <= 1;
                     end
