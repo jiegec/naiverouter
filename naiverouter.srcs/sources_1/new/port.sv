@@ -463,15 +463,14 @@ module port #(
         `IPV4_WIDTH'h0a000001  // port 0 10.0.0.1
     };
 
-    logic [`PORT_COUNT-1:0][`MAC_WIDTH-1:0] port_mac = {
-        `MAC_WIDTH'h020203030003,
-        `MAC_WIDTH'h020203030002,
-        `MAC_WIDTH'h020203030001,
-        `MAC_WIDTH'h020203030000
-    };
+    logic [`MAC_WIDTH-1:0] port_mac = `MAC_WIDTH'h020203030000;
 
     always_ff @ (posedge clk) begin
         if (reset) begin
+            arp_insert_ip <= 0;
+            arp_insert_mac <= 0;
+            arp_insert_port <= 0;
+
             rx_len_ren <= 0;
             rx_data_ren <= 0;
             rx_read <= 0;
@@ -632,7 +631,7 @@ module port #(
                             rx_outbound <= 1;
                             rx_outbound_port_id <= `OS_PORT_ID;
                             // pass original request to os
-                            rx_outbound_arp_response <= {port_mac[rx_saved_port_id], rx_saved_src_mac_addr, `VLAN_ETHERTYPE, rx_saved_vlan_tag, `ARP_ETHERTYPE, 16'h0001, `IPV4_ETHERTYPE, 8'h06, 8'h04, `ARP_OPCODE_REQUEST, rx_saved_src_mac_addr, rx_saved_arp_src_ipv4_addr, port_mac[rx_saved_port_id], port_ip[rx_saved_port_id]};
+                            rx_outbound_arp_response <= {port_mac, rx_saved_src_mac_addr, `VLAN_ETHERTYPE, rx_saved_vlan_tag, `ARP_ETHERTYPE, 16'h0001, `IPV4_ETHERTYPE, 8'h06, 8'h04, `ARP_OPCODE_REQUEST, rx_saved_src_mac_addr, rx_saved_arp_src_ipv4_addr, port_mac, port_ip[rx_saved_port_id]};
                             rx_outbound_length <= `ARP_RESPONSE_COUNT;
                             rx_outbound_counter <= 0;
                             // send to os port
@@ -734,7 +733,7 @@ module port #(
                         rx_outbound_length <= rx_read_length - 4; // skip fcs
                         rx_outbound_counter <= 0;
                         rx_outbound_port_id <= `ROUTER_PORT_ID;
-                        rx_outbound_vlan_tag <= arp_lookup_port;
+                        rx_outbound_vlan_tag <= arp_lookup_port + 1;
                         // send to router port
                         fifo_matrix_rx_wvalid[`ROUTER_PORT_ID] <= 1;
                         ip_routing <= 0;
@@ -755,7 +754,7 @@ module port #(
                         // send arp request
                         arp_written <= 1;
                         rx_outbound <= 1;
-                        rx_outbound_arp_response <= {`MAC_WIDTH'hffffffffffff, port_mac[rx_nexthop_port], `VLAN_ETHERTYPE, 8'h00, rx_nexthop_vlan_tag, `ARP_ETHERTYPE, 16'h0001, `IPV4_ETHERTYPE, 8'h06, 8'h04, `ARP_OPCODE_REQUEST, port_mac[rx_saved_port_id], port_ip[rx_nexthop_port], `MAC_WIDTH'h0, rx_nexthop_ipv4_addr};
+                        rx_outbound_arp_response <= {`MAC_WIDTH'hffffffffffff, port_mac, `VLAN_ETHERTYPE, 8'h00, rx_nexthop_vlan_tag, `ARP_ETHERTYPE, 16'h0001, `IPV4_ETHERTYPE, 8'h06, 8'h04, `ARP_OPCODE_REQUEST, port_mac, port_ip[rx_nexthop_port], `MAC_WIDTH'h0, rx_nexthop_ipv4_addr};
                         rx_outbound_length <= `ARP_RESPONSE_COUNT;
                         rx_outbound_counter <= 0;
                         rx_outbound_port_id <= `ROUTER_PORT_ID;
