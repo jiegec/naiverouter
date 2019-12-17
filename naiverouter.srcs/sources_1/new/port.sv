@@ -785,9 +785,9 @@ module port #(
                             end else if (rx_outbound_counter == `ETHERTYPE_BEGIN + 1) begin
                                 fifo_matrix_rx_wdata[rx_outbound_port_id] <= 8'h00;
                             end else if (rx_outbound_counter == `VLAN_TAG_BEGIN) begin
-                                fifo_matrix_rx_wdata[rx_outbound_port_id] <= rx_outbound_vlan_tag[15:8];
+                                fifo_matrix_rx_wdata[rx_outbound_port_id] <= 8'h00;
                             end else if (rx_outbound_counter == `VLAN_TAG_BEGIN + 1) begin
-                                fifo_matrix_rx_wdata[rx_outbound_port_id] <= rx_outbound_vlan_tag[7:0];
+                                fifo_matrix_rx_wdata[rx_outbound_port_id] <= rx_outbound_vlan_tag;
                             end else if (rx_outbound_counter == `ETHERTYPE2_BEGIN) begin
                                 // IPv4 Ethertype 0x0800
                                 fifo_matrix_rx_wdata[rx_outbound_port_id] <= 8'h08;

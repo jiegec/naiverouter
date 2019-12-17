@@ -231,9 +231,6 @@ module router(
             fifo_matrix_rx_progress <= 0;
 
             fifo_matrix_wready[0][`OS_PORT_ID] <= 0;
-            fifo_matrix_wready[1][`OS_PORT_ID] <= 0;
-            fifo_matrix_wready[2][`OS_PORT_ID] <= 0;
-            fifo_matrix_wready[3][`OS_PORT_ID] <= 0;
         end else begin
             if (!fifo_matrix_rx_progress && os_rxd_tready) begin
                 // can send to os now
@@ -322,17 +319,8 @@ module router(
             os_txd_tready <= 1;
 
             fifo_matrix_wdata[`OS_PORT_ID][0] <= 0;
-            fifo_matrix_wdata[`OS_PORT_ID][1] <= 0;
-            fifo_matrix_wdata[`OS_PORT_ID][2] <= 0;
-            fifo_matrix_wdata[`OS_PORT_ID][3] <= 0;
             fifo_matrix_wlast[`OS_PORT_ID][0] <= 0;
-            fifo_matrix_wlast[`OS_PORT_ID][1] <= 0;
-            fifo_matrix_wlast[`OS_PORT_ID][2] <= 0;
-            fifo_matrix_wlast[`OS_PORT_ID][3] <= 0;
             fifo_matrix_wvalid[`OS_PORT_ID][0] <= 0;
-            fifo_matrix_wvalid[`OS_PORT_ID][1] <= 0;
-            fifo_matrix_wvalid[`OS_PORT_ID][2] <= 0;
-            fifo_matrix_wvalid[`OS_PORT_ID][3] <= 0;
         end else begin
             // save data whenever tvalid is 1
             // and begin to send when tlast is 1

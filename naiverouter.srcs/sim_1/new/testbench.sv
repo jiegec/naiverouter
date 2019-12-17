@@ -52,6 +52,9 @@ module testbench(
     logic [3:0] rgmii_rd;
     logic rgmii_rx_ctl;
     logic rgmii_rxc;
+    logic [3:0] rgmii_td;
+    logic rgmii_tx_ctl;
+    logic rgmii_txc;
 
     localparam BUFFER_SIZE = 2000;
     localparam FRAME_COUNT = 10;
@@ -163,6 +166,9 @@ module testbench(
         .rgmii_rd(rgmii_rd),
         .rgmii_rx_ctl(rgmii_rx_ctl),
         .rgmii_rxc(rgmii_rxc),
+        .rgmii_td(rgmii_td),
+        .rgmii_tx_ctl(rgmii_tx_ctl),
+        .rgmii_txc(rgmii_txc),
 
         .os_clk(clk_50M),
         .os_addr(0),
@@ -171,4 +177,26 @@ module testbench(
         .os_rst(0),
         .os_en(0)
     );
+
+    logic even = 0;
+    logic [7:0] data = 0;
+    logic active = 0;
+
+    always @ (posedge rgmii_txc) begin
+        if (rgmii_tx_ctl) begin
+            if (even == 0) begin
+                data <= rgmii_td;
+            end else begin
+                $write("%x ", {data[3:0], rgmii_td});
+                data <= 0;
+            end
+            even <= ~even;
+            active <= 1;
+        end else begin
+            if (active) begin
+                $display("");
+                active <= 0;
+            end
+        end
+    end
 endmodule
