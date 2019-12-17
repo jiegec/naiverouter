@@ -395,6 +395,8 @@ module port #(
     logic [`MAC_WIDTH-1:0] rx_saved_src_mac_addr;
     logic [`ETHERTYPE_WIDTH-1:0] rx_saved_ethertype;
     logic [`VLAN_TAG_WIDTH-1:0] rx_saved_vlan_tag;
+    logic [`PORT_WIDTH-1:0] rx_saved_port_id;
+    assign rx_saved_port_id = rx_saved_vlan_tag - 1;
     logic [`ETHERTYPE_WIDTH-1:0] rx_saved_ethertype2;
     // ARP
     logic [`IPV4_WIDTH-1:0] rx_saved_arp_src_ipv4_addr;
@@ -450,10 +452,21 @@ module port #(
     // data transfer is working
     logic rx_outbound;
     logic [`PORT_OS_COUNT-1:0] rx_outbound_port_id;
+    logic [`PORT_WIDTH-1:0] rx_outbound_vlan_tag;
 
-    logic [`PORT_WIDTH-1:0] port_id = 0;
-    logic [`IPV4_WIDTH-1:0] port_ip = 0;
-    logic [`MAC_WIDTH-1:0] port_mac = 0;
+    logic [`PORT_COUNT-1:0][`IPV4_WIDTH-1:0] port_ip = {
+        `IPV4_WIDTH'h0a000301, // port 3 10.0.3.1
+        `IPV4_WIDTH'h0a000201, // port 2 10.0.2.1
+        `IPV4_WIDTH'h0a000101, // port 1 10.0.1.1
+        `IPV4_WIDTH'h0a000001  // port 0 10.0.0.1
+    };
+
+    logic [`PORT_COUNT-1:0][`MAC_WIDTH-1:0] port_mac = {
+        `MAC_WIDTH'h020203030003,
+        `MAC_WIDTH'h020203030002,
+        `MAC_WIDTH'h020203030001,
+        `MAC_WIDTH'h020203030000
+    };
 
     always_ff @ (posedge clk) begin
         if (reset) begin
@@ -501,6 +514,7 @@ module port #(
 
             rx_outbound <= 0;
             rx_outbound_port_id <= 0;
+            rx_outbound_vlan_tag <= 0;
             rx_outbound_arp_response <= 0;
             rx_outbound_length <= 0;
             rx_outbound_counter <= 0;
@@ -550,6 +564,7 @@ module port #(
 
                 rx_outbound <= 0;
                 rx_outbound_port_id <= 0;
+                rx_outbound_vlan_tag <= 0;
                 rx_outbound_arp_response <= 0;
                 fifo_matrix_rx_wdata <= 0;
                 fifo_matrix_rx_wlast <= 0;
@@ -607,15 +622,15 @@ module port #(
                         arp_insert_valid <= 0;
                         arp_insert_ip <= rx_saved_arp_src_ipv4_addr;
                         arp_insert_mac <= rx_saved_src_mac_addr;
-                        arp_insert_port <= port_id;
+                        arp_insert_port <= rx_saved_port_id;
 
                         // send packets to OS directly when ip matches
-                        if (rx_saved_arp_opcode == `ARP_OPCODE_REQUEST && rx_saved_arp_dst_ipv4_addr == port_ip[port_id]) begin
+                        if (rx_saved_arp_opcode == `ARP_OPCODE_REQUEST && rx_saved_arp_dst_ipv4_addr == port_ip[rx_saved_port_id]) begin
                             // send arp reply
                             rx_outbound <= 1;
                             rx_outbound_port_id <= `OS_PORT_ID;
                             // pass original request to os
-                            rx_outbound_arp_response <= {port_mac, rx_saved_src_mac_addr, `ARP_ETHERTYPE, 16'h0001, `IPV4_ETHERTYPE, 8'h06, 8'h04, `ARP_OPCODE_REQUEST, rx_saved_src_mac_addr, rx_saved_arp_src_ipv4_addr, port_mac, port_ip[port_id]};
+                            rx_outbound_arp_response <= {port_mac[rx_saved_port_id], rx_saved_src_mac_addr, `VLAN_ETHERTYPE, rx_saved_vlan_tag, `ARP_ETHERTYPE, 16'h0001, `IPV4_ETHERTYPE, 8'h06, 8'h04, `ARP_OPCODE_REQUEST, rx_saved_src_mac_addr, rx_saved_arp_src_ipv4_addr, port_mac[rx_saved_port_id], port_ip[rx_saved_port_id]};
                             rx_outbound_length <= `ARP_RESPONSE_COUNT;
                             rx_outbound_counter <= 0;
                             // send to os port
@@ -648,7 +663,7 @@ module port #(
 
                     if (rx_saved_ethertype2 == `IPV4_ETHERTYPE && rx_read_counter == rx_read_length - 2 && !ip_routing && !ip_routed) begin
                         // multicast should be sent to os
-                        if (rx_saved_ipv4_dst_addr != port_ip[port_id] && rx_saved_ipv4_ttl > 1 && rx_saved_ipv4_dst_addr[`IPV4_WIDTH-1:`IPV4_WIDTH-4] != 4'b1110) begin
+                        if (rx_saved_ipv4_dst_addr != port_ip[rx_saved_port_id] && rx_saved_ipv4_ttl > 1 && rx_saved_ipv4_dst_addr[`IPV4_WIDTH-1:`IPV4_WIDTH-4] != 4'b1110) begin
                             ip_routed <= 1;
                             ip_routing <= 1;
                             ip_lookup_routing <= 0;
@@ -716,8 +731,10 @@ module port #(
                         rx_outbound <= 1;
                         rx_outbound_length <= rx_read_length - 4; // skip fcs
                         rx_outbound_counter <= 0;
-                        rx_outbound_port_id <= arp_lookup_port;
-                        fifo_matrix_rx_wvalid[arp_lookup_port] <= 1;
+                        rx_outbound_port_id <= `ROUTER_PORT_ID;
+                        rx_outbound_vlan_tag <= arp_lookup_port;
+                        // send to router port
+                        fifo_matrix_rx_wvalid[`ROUTER_PORT_ID] <= 1;
                         ip_routing <= 0;
                         rx_nexthop_mac_addr <= arp_lookup_mac;
                         // Consider overflow
@@ -736,12 +753,13 @@ module port #(
                         // send arp request
                         arp_written <= 1;
                         rx_outbound <= 1;
-                        rx_outbound_arp_response <= {`MAC_WIDTH'hffffffffffff, port_mac, `ARP_ETHERTYPE, 16'h0001, `IPV4_ETHERTYPE, 8'h06, 8'h04, `ARP_OPCODE_REQUEST, port_mac, port_ip[rx_nexthop_port], `MAC_WIDTH'h0, rx_nexthop_ipv4_addr};
+                        rx_outbound_arp_response <= {`MAC_WIDTH'hffffffffffff, port_mac[rx_saved_port_id], `ARP_ETHERTYPE, 16'h0001, `IPV4_ETHERTYPE, 8'h06, 8'h04, `ARP_OPCODE_REQUEST, port_mac[rx_saved_port_id], port_ip[rx_nexthop_port], `MAC_WIDTH'h0, rx_nexthop_ipv4_addr};
                         rx_outbound_length <= `ARP_RESPONSE_COUNT;
                         rx_outbound_counter <= 0;
-                        rx_outbound_port_id <= rx_nexthop_port;
-                        // send to next hop port
-                        fifo_matrix_rx_wvalid[rx_nexthop_port] <= 1;
+                        rx_outbound_port_id <= `ROUTER_PORT_ID;
+                        rx_outbound_vlan_tag <= rx_nexthop_port;
+                        // send to router port
+                        fifo_matrix_rx_wvalid[`ROUTER_PORT_ID] <= 1;
                     end
                 end
                 if (rx_outbound && fifo_matrix_rx_wready[rx_outbound_port_id]) begin
@@ -762,9 +780,18 @@ module port #(
                                 fifo_matrix_rx_wdata[rx_outbound_port_id] <= rx_saved_dst_mac_addr[`MAC_WIDTH-1:`MAC_WIDTH-`BYTE_WIDTH];
                                 rx_saved_dst_mac_addr <= rx_saved_dst_mac_addr << `BYTE_WIDTH;
                             end else if (rx_outbound_counter == `ETHERTYPE_BEGIN) begin
+                                // 802.1Q Ethertype 0x8100
+                                fifo_matrix_rx_wdata[rx_outbound_port_id] <= 8'h81;
+                            end else if (rx_outbound_counter == `ETHERTYPE_BEGIN + 1) begin
+                                fifo_matrix_rx_wdata[rx_outbound_port_id] <= 8'h00;
+                            end else if (rx_outbound_counter == `VLAN_TAG_BEGIN) begin
+                                fifo_matrix_rx_wdata[rx_outbound_port_id] <= rx_outbound_vlan_tag[15:8];
+                            end else if (rx_outbound_counter == `VLAN_TAG_BEGIN + 1) begin
+                                fifo_matrix_rx_wdata[rx_outbound_port_id] <= rx_outbound_vlan_tag[7:0];
+                            end else if (rx_outbound_counter == `ETHERTYPE2_BEGIN) begin
                                 // IPv4 Ethertype 0x0800
                                 fifo_matrix_rx_wdata[rx_outbound_port_id] <= 8'h08;
-                            end else if (rx_outbound_counter == `ETHERTYPE_BEGIN + 1) begin
+                            end else if (rx_outbound_counter == `ETHERTYPE2_BEGIN + 1) begin
                                 fifo_matrix_rx_wdata[rx_outbound_port_id] <= 8'h00;
                             end else if (rx_outbound_counter >= `IPV4_TTL_BEGIN && rx_outbound_counter < `IPV4_TTL_END) begin
                                 fifo_matrix_rx_wdata[rx_outbound_port_id] <= rx_saved_ipv4_ttl - 1;

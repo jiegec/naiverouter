@@ -1,6 +1,7 @@
 // 7 preamble + 1 sfd + 12 mac + 2 ethertype + 1500 payload + 4 fcs
 `define MAX_ETHERNET_FRAME_BYTES 1526
 
+`define ROUTER_PORT_ID 1'b0
 `define OS_PORT_ID 1'b1
 `define PORT_OS_COUNT 2
 `define PORT_OS_WIDTH 1
@@ -47,7 +48,7 @@
 `define ARP_ETHERTYPE `ETHERTYPE_WIDTH'h0806
 
 // ARP
-`define ARP_RESPONSE_COUNT 42
+`define ARP_RESPONSE_COUNT 46
 `define ARP_OPCODE_COUNT 2
 `define ARP_OPCODE_BEGIN 24
 `define ARP_OPCODE_END 26

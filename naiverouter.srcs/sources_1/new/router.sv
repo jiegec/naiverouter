@@ -100,9 +100,6 @@ module router(
     );
 
     // routing table
-    logic routing_arbiter_req;
-    logic routing_arbiter_grant;
-
     logic [`IPV4_WIDTH-1:0] port_lookup_dest_ip;
     logic [`IPV4_WIDTH-1:0] port_lookup_via_ip;
     logic [`PORT_WIDTH-1:0] port_lookup_via_port;
@@ -168,16 +165,16 @@ module router(
         .routing_lookup_not_found(port_lookup_not_found),
 
         // from X to current
-        .fifo_matrix_tx_wdata({fifo_matrix_wdata[4][0], fifo_matrix_wdata[3][0], fifo_matrix_wdata[2][0], fifo_matrix_wdata[1][0], fifo_matrix_wdata[0][0]}),
-        .fifo_matrix_tx_wlast({fifo_matrix_wlast[4][0], fifo_matrix_wlast[3][0], fifo_matrix_wlast[2][0], fifo_matrix_wlast[1][0], fifo_matrix_wlast[0][0]}),
-        .fifo_matrix_tx_wvalid({fifo_matrix_wvalid[4][0], fifo_matrix_wvalid[3][0], fifo_matrix_wvalid[2][0], fifo_matrix_wvalid[1][0], fifo_matrix_wvalid[0][0]}),
-        .fifo_matrix_tx_wready({fifo_matrix_wready[4][0], fifo_matrix_wready[3][0], fifo_matrix_wready[2][0], fifo_matrix_wready[1][0], fifo_matrix_wready[0][0]}),
+        .fifo_matrix_tx_wdata({fifo_matrix_wdata[1][0], fifo_matrix_wdata[0][0]}),
+        .fifo_matrix_tx_wlast({fifo_matrix_wlast[1][0], fifo_matrix_wlast[0][0]}),
+        .fifo_matrix_tx_wvalid({fifo_matrix_wvalid[1][0], fifo_matrix_wvalid[0][0]}),
+        .fifo_matrix_tx_wready({fifo_matrix_wready[1][0], fifo_matrix_wready[0][0]}),
 
         // from current to X
-        .fifo_matrix_rx_wdata({fifo_matrix_wdata[0][4], fifo_matrix_wdata[0][3], fifo_matrix_wdata[0][2], fifo_matrix_wdata[0][1], fifo_matrix_wdata[0][0]}),
-        .fifo_matrix_rx_wlast({fifo_matrix_wlast[0][4], fifo_matrix_wlast[0][3], fifo_matrix_wlast[0][2], fifo_matrix_wlast[0][1], fifo_matrix_wlast[0][0]}),
-        .fifo_matrix_rx_wvalid({fifo_matrix_wvalid[0][4], fifo_matrix_wvalid[0][3], fifo_matrix_wvalid[0][2], fifo_matrix_wvalid[0][1], fifo_matrix_wvalid[0][0]}),
-        .fifo_matrix_rx_wready({fifo_matrix_wready[0][4], fifo_matrix_wready[0][3], fifo_matrix_wready[0][2], fifo_matrix_wready[0][1], fifo_matrix_wready[0][0]}),
+        .fifo_matrix_rx_wdata({fifo_matrix_wdata[0][1], fifo_matrix_wdata[0][0]}),
+        .fifo_matrix_rx_wlast({fifo_matrix_wlast[0][1], fifo_matrix_wlast[0][0]}),
+        .fifo_matrix_rx_wvalid({fifo_matrix_wvalid[0][1], fifo_matrix_wvalid[0][0]}),
+        .fifo_matrix_rx_wready({fifo_matrix_wready[0][1], fifo_matrix_wready[0][0]}),
 
         .gtx_clk(clk125M),
         .gtx_clk_out(gtx_clk),
@@ -201,7 +198,7 @@ module router(
 
     // from fifo matrix to os rx fifo
     // Round robin
-    logic [`PORT_WIDTH-1:0] fifo_matrix_rx_index;
+    logic [1-1:0] fifo_matrix_rx_index;
     logic fifo_matrix_rx_progress;
 
     logic [7:0] os_rxd_tdata;
