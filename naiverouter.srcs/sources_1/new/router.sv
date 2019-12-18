@@ -347,7 +347,6 @@ module router(
             end else if (!fifo_matrix_tx_progress) begin
                 fifo_matrix_tx_dina <= 0;
                 fifo_matrix_tx_wea <= 0;
-                fifo_matrix_tx_addra <= 0;
             end else begin
                 if (fifo_matrix_tx_addra == fifo_matrix_tx_length + 1) begin
                     fifo_matrix_tx_addra <= 2;

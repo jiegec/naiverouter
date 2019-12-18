@@ -152,9 +152,9 @@ module testbench(
     assign rgmii_rxc = clk_125M_90deg;
 
     logic axis_rxd_tready;
-    logic axis_rxd_tlast;
-    logic axis_rxd_tvalid;
-    logic [7:0] axis_rxd_tdata;
+    logic axis_rxd_tlast = 0;
+    logic axis_rxd_tvalid = 0;
+    logic [7:0] axis_rxd_tdata = 0;
     logic axis_txd_tready;
     logic axis_txd_tlast = 0;
     logic axis_txd_tvalid = 0;
@@ -166,9 +166,11 @@ module testbench(
         if (reset_n && axis_rxd_tready) begin
             if (count2 < 64) begin
                 axis_rxd_tdata <= count2;
-                axis_rxd_tvalid <= 1;
+                axis_rxd_tvalid <= ~axis_rxd_tvalid;
                 axis_rxd_tlast <= count2 == 63;
-                count2 <= count2 + 1;
+                if (axis_rxd_tvalid) begin
+                    count2 <= count2 + 1;
+                end
             end else if (count2 == 100) begin
                 count2 <= 0;
             end else if (count2 >= 64) begin
