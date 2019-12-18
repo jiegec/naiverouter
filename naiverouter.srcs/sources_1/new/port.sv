@@ -344,7 +344,7 @@ module port #(
 
         .prog_full(rx_len_full),
         .din(rx_len_in),
-        .rst(reset),
+        .rst(reset_rx),
         .wr_clk(rx_mac_aclk),
         .wr_en(rx_len_wen),
         .wr_rst_busy(rx_len_busy)
