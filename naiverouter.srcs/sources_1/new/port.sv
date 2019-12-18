@@ -138,7 +138,7 @@ module port #(
         .PROG_FULL_THRESH(`MAX_FIFO_SIZE - `MAX_ETHERNET_FRAME_BYTES),
         .READ_MODE("fwft"), // special
         .FIFO_READ_LATENCY(0) // special
-    ) xpm_fifo_zsync_inst_tx_data (
+    ) xpm_fifo_async_inst_tx_data (
         .dout(tx_data_out),
         .rd_en(tx_data_ren),
         .rd_clk(tx_mac_aclk),
@@ -168,7 +168,7 @@ module port #(
         .WRITE_DATA_WIDTH(`LENGTH_WIDTH),
         .FIFO_WRITE_DEPTH(`MAX_FIFO_SIZE),
         .PROG_FULL_THRESH(`MAX_FIFO_SIZE - 16)
-    ) xpm_fifo_zsync_inst_tx_len (
+    ) xpm_fifo_async_inst_tx_len (
         .dout(tx_len_out),
         .rd_en(tx_len_ren),
         .rd_clk(tx_mac_aclk),
@@ -938,10 +938,10 @@ module port #(
                 .inband_clock_speed(clock_speed),
                 .inband_duplex_status(duplex_status),
 
-                // receive 1Gb/s | promiscuous | flow control | fcs | enable
-                .rx_configuration_vector(80'b10100000101010),
-                // transmit 1Gb/s | enable
-                .tx_configuration_vector(80'b10000000000010)
+                // receive 1Gb/s | promiscuous | flow control | fcs | vlan | enable
+                .rx_configuration_vector(80'b10100000101110),
+                // transmit 1Gb/s | vlan | enable
+                .tx_configuration_vector(80'b10000000000110)
             );
         end
     endgenerate
