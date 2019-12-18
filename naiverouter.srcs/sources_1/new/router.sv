@@ -233,14 +233,15 @@ module router(
             fifo_matrix_wready[0][`OS_PORT_ID] <= 0;
             fifo_matrix_wready[1][`OS_PORT_ID] <= 0;
         end else begin
-            if (!fifo_matrix_rx_progress && os_rxd_tready) begin
+            // master must not wait until tready is asserted
+            if (!fifo_matrix_rx_progress) begin
                 // can send to os now
                 if (fifo_matrix_wvalid[fifo_matrix_rx_index][`OS_PORT_ID]) begin
                     // begin to recv data
-                    if (os_rxd_tvalid) begin
+                    if (os_rxd_tready) begin
                         fifo_matrix_rx_progress <= 1;
+                        fifo_matrix_wready[fifo_matrix_rx_index][`OS_PORT_ID] <= 1;
                     end
-                    fifo_matrix_wready[fifo_matrix_rx_index][`OS_PORT_ID] <= 1;
                     os_rxd_tvalid <= 1;
                 end else begin
                     // round robin
