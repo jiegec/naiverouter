@@ -237,8 +237,11 @@ module port #(
     assign tx_axis_mac_tdata = tx_data_out;
     assign tx_data_ren = tx_axis_mac_tready;
 
+    logic reset_tx = 1;
+
     always @ (posedge tx_mac_aclk) begin
-        if (reset) begin
+        reset_tx <= reset;
+        if (reset_tx) begin
             tx_len_ren <= 0;
             tx_send <= 0;
             tx_send_counter <= 0;
@@ -291,6 +294,12 @@ module port #(
     logic rx_data_wen;
     logic rx_axis_mac_tvalid_last;
 
+    // sync reset to rx_mac_aclk
+    logic reset_rx = 1;
+    always @ (posedge rx_mac_aclk) begin
+        reset_rx <= reset;
+    end
+
     // stores ethernet frame data
     xpm_fifo_async #(
         .READ_DATA_WIDTH(`BYTE_WIDTH),
@@ -304,7 +313,7 @@ module port #(
 
         .prog_full(rx_data_full),
         .din(rx_data_in),
-        .rst(reset),
+        .rst(reset_rx),
         .wr_clk(rx_mac_aclk),
         .wr_en(rx_data_wen),
         .wr_rst_busy(rx_data_busy)
