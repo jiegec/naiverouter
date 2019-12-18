@@ -312,6 +312,8 @@ module router(
         if (reset) begin
             fifo_matrix_tx_index <= 0;
             fifo_matrix_tx_progress <= 0;
+            fifo_matrix_tx_length <= 0;
+            fifo_matrix_tx_counter <= 0;
 
             fifo_matrix_tx_addra <= 0;
             fifo_matrix_tx_dina <= 0;

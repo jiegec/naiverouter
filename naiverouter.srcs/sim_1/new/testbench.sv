@@ -151,10 +151,33 @@ module testbench(
 
     assign rgmii_rxc = clk_125M_90deg;
 
-    logic axis_tready;
-    logic axis_tlast;
-    logic axis_tvalid;
-    logic [7:0] axis_tdata;
+    logic axis_rxd_tready;
+    logic axis_rxd_tlast;
+    logic axis_rxd_tvalid;
+    logic [7:0] axis_rxd_tdata;
+    logic axis_txd_tready;
+    logic axis_txd_tlast = 0;
+    logic axis_txd_tvalid = 0;
+    logic [7:0] axis_txd_tdata = 0;
+    logic [31:0] count2 = 0;
+
+    assign axis_txd_tready = 1;
+    always @ (posedge clk_50M) begin
+        if (reset_n && axis_rxd_tready) begin
+            if (count2 < 64) begin
+                axis_rxd_tdata <= count2;
+                axis_rxd_tvalid <= 1;
+                axis_rxd_tlast <= count2 == 63;
+                count2 <= count2 + 1;
+            end else if (count2 == 100) begin
+                count2 <= 0;
+            end else if (count2 >= 64) begin
+                axis_rxd_tvalid <= 0;
+                axis_rxd_tlast <= 0;
+                count2 <= count2 + 1;
+            end
+        end
+    end
 
     router_top dut(
         .clk(clk_50M),
@@ -163,14 +186,14 @@ module testbench(
         .reset_n(reset_n),
 
         .axis_clk(clk_50M),
-        .axis_txd_tdata(axis_tdata),
-        .axis_txd_tlast(axis_tlast),
-        .axis_txd_tvalid(axis_tvalid),
-        .axis_txd_tready(axis_tready),
-        .axis_rxd_tdata(axis_tdata),
-        .axis_rxd_tlast(axis_tlast),
-        .axis_rxd_tvalid(axis_tvalid),
-        .axis_rxd_tready(axis_tready),
+        .axis_txd_tdata(axis_txd_tdata),
+        .axis_txd_tlast(axis_txd_tlast),
+        .axis_txd_tvalid(axis_txd_tvalid),
+        .axis_txd_tready(axis_txd_tready),
+        .axis_rxd_tdata(axis_rxd_tdata),
+        .axis_rxd_tlast(axis_rxd_tlast),
+        .axis_rxd_tvalid(axis_rxd_tvalid),
+        .axis_rxd_tready(axis_rxd_tready),
 
         .rgmii_rd(rgmii_rd),
         .rgmii_rx_ctl(rgmii_rx_ctl),
