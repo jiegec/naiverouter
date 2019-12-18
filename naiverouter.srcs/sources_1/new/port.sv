@@ -627,7 +627,6 @@ module port #(
 
                         // send packets to OS directly when ip matches
                         if (rx_saved_arp_opcode == `ARP_OPCODE_REQUEST && rx_saved_arp_dst_ipv4_addr == port_ip[rx_saved_port_id]) begin
-                            // send arp reply
                             rx_outbound <= 1;
                             rx_outbound_port_id <= `OS_PORT_ID;
                             // pass original request to os
@@ -686,6 +685,7 @@ module port #(
                             rx_saved_ipv4_ttl <= rx_saved_ipv4_ttl + 1;
                             // send to os port
                             rx_outbound_port_id <= `OS_PORT_ID;
+                            rx_outbound_vlan_tag <= rx_saved_vlan_tag;
                             fifo_matrix_rx_wvalid[`OS_PORT_ID] <= 1;
                         end
                     end

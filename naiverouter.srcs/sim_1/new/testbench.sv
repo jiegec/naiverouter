@@ -151,6 +151,11 @@ module testbench(
 
     assign rgmii_rxc = clk_125M_90deg;
 
+    logic axis_tready;
+    logic axis_tlast;
+    logic axis_tvalid;
+    logic [7:0] axis_tdata;
+
     router_top dut(
         .clk(clk_50M),
         .clk_125M(clk_125M),
@@ -158,10 +163,14 @@ module testbench(
         .reset_n(reset_n),
 
         .axis_clk(clk_50M),
-        .axis_txd_tready(1'b1),
-        .axis_rxd_tdata(0),
-        .axis_rxd_tlast(1'b0),
-        .axis_rxd_tvalid(1'b0),
+        .axis_txd_tdata(axis_tdata),
+        .axis_txd_tlast(axis_tlast),
+        .axis_txd_tvalid(axis_tvalid),
+        .axis_txd_tready(axis_tready),
+        .axis_rxd_tdata(axis_tdata),
+        .axis_rxd_tlast(axis_tlast),
+        .axis_rxd_tvalid(axis_tvalid),
+        .axis_rxd_tready(axis_tready),
 
         .rgmii_rd(rgmii_rd),
         .rgmii_rx_ctl(rgmii_rx_ctl),
