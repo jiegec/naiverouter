@@ -32,7 +32,7 @@
     <Option Name="EnableBDX" Val="FALSE"/>
     <Option Name="DSAVendor" Val="xilinx"/>
     <Option Name="DSANumComputeUnits" Val="60"/>
-    <Option Name="WTXSimLaunchSim" Val="192"/>
+    <Option Name="WTXSimLaunchSim" Val="219"/>
     <Option Name="WTModelSimLaunchSim" Val="0"/>
     <Option Name="WTQuestaLaunchSim" Val="0"/>
     <Option Name="WTIesLaunchSim" Val="0"/>
@@ -58,13 +58,6 @@
     <FileSet Name="sources_1" Type="DesignSrcs" RelSrcDir="$PSRCDIR/sources_1">
       <Filter Type="Srcs"/>
       <File Path="$PSRCDIR/sources_1/ip/axis_data_fifo_0/axis_data_fifo_0.xci">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PSRCDIR/sources_1/ip/tri_mode_ethernet_mac_0_shared/tri_mode_ethernet_mac_0_shared.xci">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
@@ -114,6 +107,14 @@
       </File>
       <File Path="$PSRCDIR/sources_1/new/router_top.v">
         <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PSRCDIR/sources_1/ip/tri_mode_ethernet_mac_0_shared/tri_mode_ethernet_mac_0_shared.xci">
+        <FileInfo>
+          <Attr Name="AutoDisabled" Val="1"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>

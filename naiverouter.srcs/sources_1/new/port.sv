@@ -880,68 +880,10 @@ module port #(
                 .inband_clock_speed(clock_speed),
                 .inband_duplex_status(duplex_status),
 
-                // receive 1Gb/s | promiscuous | flow control | fcs | enable
-                .rx_configuration_vector(80'b10100000101010),
-                // transmit 1Gb/s | enable
-                .tx_configuration_vector(80'b10000000000010)
-            );
-        end else begin
-            assign gtx_clk_out = 0;
-            assign gtx_clk90_out = 0;
-            tri_mode_ethernet_mac_0_shared tri_mode_ethernet_mac_0_shared_inst (
-                .gtx_clk(gtx_clk),
-                .gtx_clk90(gtx_clk90),
-
-                .glbl_rstn(reset_n),
-                .rx_axi_rstn(reset_n),
-                .tx_axi_rstn(reset_n),
-
-                .rx_enable(rx_enable),
-
-                .rx_statistics_vector(rx_statistics_vector),
-                .rx_statistics_valid(rx_statistics_valid),
-
-                .rx_mac_aclk(rx_mac_aclk),
-                .rx_reset(rx_reset),
-                .rx_axis_mac_tdata(rx_axis_mac_tdata),
-                .rx_axis_mac_tvalid(rx_axis_mac_tvalid),
-                .rx_axis_mac_tlast(rx_axis_mac_tlast),
-                .rx_axis_mac_tuser(rx_axis_mac_tuser),
-
-                .tx_enable(tx_enable),
-
-                .tx_ifg_delay(8'b00000000),
-                .tx_statistics_vector(tx_statistics_vector),
-                .tx_statistics_valid(tx_statistics_valid),
-
-                .tx_mac_aclk(tx_mac_aclk),
-                .tx_reset(tx_reset),
-                .tx_axis_mac_tdata(tx_axis_mac_tdata),
-                .tx_axis_mac_tvalid(tx_axis_mac_tvalid),
-                .tx_axis_mac_tlast(tx_axis_mac_tlast),
-                .tx_axis_mac_tuser(tx_axis_mac_tuser),
-                .tx_axis_mac_tready(tx_axis_mac_tready),
-
-                .pause_req(1'b0),
-                .pause_val(16'b0),
-
-                .speedis100(speedis100),
-                .speedis10100(speedis10100),
-
-                .rgmii_txd(rgmii_td),
-                .rgmii_tx_ctl(rgmii_tx_ctl),
-                .rgmii_txc(rgmii_txc),
-                .rgmii_rxd(rgmii_rd),
-                .rgmii_rx_ctl(rgmii_rx_ctl),
-                .rgmii_rxc(rgmii_rxc),
-                .inband_link_status(link_status),
-                .inband_clock_speed(clock_speed),
-                .inband_duplex_status(duplex_status),
-
-                // receive 1Gb/s | promiscuous | flow control | jumbo frame | fcs | enable
-                .rx_configuration_vector(80'b10100000111010),
-                // transmit 1Gb/s | jumbo frame | enable
-                .tx_configuration_vector(80'b10000000010010)
+                // receive 1Gb/s | promiscuous | flow control | fcs | vlan | enable
+                .rx_configuration_vector(80'b10100000101110),
+                // transmit 1Gb/s | vlan | enable
+                .tx_configuration_vector(80'b10000000000110)
             );
         end
     endgenerate
