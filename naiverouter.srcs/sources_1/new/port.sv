@@ -938,9 +938,9 @@ module port #(
                 .inband_clock_speed(clock_speed),
                 .inband_duplex_status(duplex_status),
 
-                // receive 1Gb/s | promiscuous | flow control | fcs | vlan | enable
+                // receive 1Gb/s | promiscuous | flow control | jumbo frame | fcs | enable
                 .rx_configuration_vector(80'b10100000111010),
-                // transmit 1Gb/s | jumbo frame | vlan | enable
+                // transmit 1Gb/s | jumbo frame | enable
                 .tx_configuration_vector(80'b10000000010010)
             );
         end
