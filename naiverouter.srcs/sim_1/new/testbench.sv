@@ -24,7 +24,7 @@ module testbench(
 
     );
 
-    reg clk_50M, clk_125M, clk_125M_90deg, clk_200M;
+    reg clk_50M, clk_125M, clk_125M_90deg, clk_200M, clk_100M;
     reg reset_n;
 
     initial begin
@@ -33,6 +33,7 @@ module testbench(
         clk_125M = 0;
         clk_125M_90deg = 0;
         clk_200M = 0;
+        clk_100M = 0;
     end
 
     initial begin
@@ -48,6 +49,7 @@ module testbench(
     always #(20/2) clk_50M = ~clk_50M;
     always #(8/2) clk_125M = ~clk_125M;
     always #(5/2) clk_200M = ~clk_200M;
+    always #(10/2) clk_100M = ~clk_100M;
 
     logic [3:0] rgmii_rd;
     logic rgmii_rx_ctl;
@@ -155,14 +157,14 @@ module testbench(
     logic axis_rxd_tlast = 0;
     logic axis_rxd_tvalid = 0;
     logic [7:0] axis_rxd_tdata = 0;
-    logic axis_txd_tready;
+    logic axis_txd_tready = 1;
     logic axis_txd_tlast = 0;
     logic axis_txd_tvalid = 0;
     logic [7:0] axis_txd_tdata = 0;
     logic [31:0] count2 = 0;
 
-    assign axis_txd_tready = 1;
-    always @ (posedge clk_50M) begin
+    always @ (posedge clk_100M) begin
+        axis_txd_tready <= ~axis_txd_tready;
         if (reset_n && axis_rxd_tready) begin
             if (count2 < 64) begin
                 axis_rxd_tdata <= count2;
@@ -187,7 +189,7 @@ module testbench(
         .clk_200M(clk_200M),
         .reset_n(reset_n),
 
-        .axis_clk(clk_50M),
+        .axis_clk(clk_100M),
         .axis_txd_tdata(axis_txd_tdata),
         .axis_txd_tlast(axis_txd_tlast),
         .axis_txd_tvalid(axis_txd_tvalid),

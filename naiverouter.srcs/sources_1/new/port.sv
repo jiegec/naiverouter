@@ -940,8 +940,9 @@ module port #(
 
                 // receive 1Gb/s | promiscuous | flow control | fcs | vlan | enable
                 .rx_configuration_vector(80'b10100000101110),
+                // max frame size = 1512 | transmitter max frame enable
                 // transmit 1Gb/s | vlan | enable
-                .tx_configuration_vector(80'b10000000000110)
+                .tx_configuration_vector({48'b0, 16'd1522, 16'b0110000000000110})
             );
         end
     endgenerate
