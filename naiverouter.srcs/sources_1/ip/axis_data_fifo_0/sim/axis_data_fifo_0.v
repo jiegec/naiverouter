@@ -100,7 +100,7 @@ output wire [31 : 0] axis_wr_data_count;
 output wire [31 : 0] axis_rd_data_count;
 
   axis_data_fifo_v2_0_0_top #(
-    .C_FAMILY("zynq"),
+    .C_FAMILY("artix7"),
     .C_AXIS_TDATA_WIDTH(8),
     .C_AXIS_TID_WIDTH(1),
     .C_AXIS_TDEST_WIDTH(1),

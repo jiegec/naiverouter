@@ -939,10 +939,9 @@ module port #(
                 .inband_duplex_status(duplex_status),
 
                 // receive 1Gb/s | promiscuous | flow control | fcs | vlan | enable
-                .rx_configuration_vector(80'b10100000101110),
-                // max frame size = 1512 | transmitter max frame enable
-                // transmit 1Gb/s | vlan | enable
-                .tx_configuration_vector({48'b0, 16'd1522, 16'b0110000000000110})
+                .rx_configuration_vector(80'b10100000111010),
+                // transmit 1Gb/s | jumbo frame | vlan | enable
+                .tx_configuration_vector(80'b10000000010010)
             );
         end
     endgenerate

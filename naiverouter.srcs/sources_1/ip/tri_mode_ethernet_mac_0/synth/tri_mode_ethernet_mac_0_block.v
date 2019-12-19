@@ -349,7 +349,7 @@ module tri_mode_ethernet_mac_0_block (
       .C_HAS_HOST                (0),
       .C_ADD_FILTER              (0),
       .C_AT_ENTRIES              (0),
-      .C_FAMILY                  ("zynq"),
+      .C_FAMILY                  ("artix7"),
       .C_HAS_2G5                 (0),
       .C_MAC_SPEED               ("TRI_SPEED"),
       .C_HAS_STATS               (0),

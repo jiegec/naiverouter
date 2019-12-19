@@ -61,19 +61,17 @@ module testbench(
     localparam BUFFER_SIZE = 2000;
     localparam FRAME_COUNT = 10;
 
-    logic packet_clk;
     logic trans;
     logic [7:0] frame_index = 0;
     logic [3:0] data1;
     logic [3:0] data2;
     logic [7:0] frame_data [FRAME_COUNT-1:0][BUFFER_SIZE-1:0];
     logic [8*BUFFER_SIZE-1:0] buffer;
-    logic [15:0] count;
+    logic [15:0] count = 0;
     logic [15:0] frame_size [FRAME_COUNT-1:0];
     integer fd, index, res, frame_count;
 
     initial begin
-        packet_clk = 0;
         fd = $fopen("example_frame.mem", "r");
 
         index = 0;
@@ -107,23 +105,21 @@ module testbench(
         end
     end
 
-    always packet_clk = #1000 ~packet_clk;
-
     always_ff @ (posedge clk_125M) begin
-        count <= packet_clk ? count + 1 : 0;
-        if (packet_clk && count < frame_size[frame_index] - 1) begin
+        count <= count + 1;
+        if (count < frame_size[frame_index] - 1) begin
             trans <= 1'b1;
             data1 <= frame_data[frame_index][count][3:0];
             data2 <= frame_data[frame_index][count][7:4];
         end else begin
+            if (count > frame_size[frame_index] + 64) begin
+                frame_index = (frame_index + 1) % frame_count;
+                count <= 0;
+            end
             trans <= 1'b0;
             data1 <= 4'b0;
             data2 <= 4'b0;
         end
-    end
-
-    always_ff @ (negedge packet_clk) begin
-        frame_index = (frame_index + 1) % frame_count;
     end
 
     genvar i;
@@ -168,7 +164,8 @@ module testbench(
         if (reset_n && axis_rxd_tready) begin
             if (count2 < 64) begin
                 axis_rxd_tdata <= count2;
-                axis_rxd_tvalid <= ~axis_rxd_tvalid;
+                //axis_rxd_tvalid <= ~axis_rxd_tvalid;
+                axis_rxd_tvalid <= 0;
                 axis_rxd_tlast <= count2 == 63;
                 if (axis_rxd_tvalid) begin
                     count2 <= count2 + 1;
