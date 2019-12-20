@@ -34,7 +34,7 @@ module routing_table(
     output logic lookup_not_found,
 
     input os_clk,
-    input [`BUCKET_INDEX_WIDTH-1:0] os_addr,
+    input [`ROUTING_TABLE_BUCKET_INDEX_WIDTH-1:0] os_addr,
     input [`ROUTING_TABLE_ENTRY_WIDTH-1:0] os_din,
     output [`ROUTING_TABLE_ENTRY_WIDTH-1:0] os_dout,
     input [(`ROUTING_TABLE_ENTRY_WIDTH)/`BYTE_WIDTH-1:0] os_wea,
@@ -45,16 +45,16 @@ module routing_table(
     // Each item consists of (PORT,DST_IP,PREFIX_MASK,VIA_IP) tuple.
     // Represents DST_IP/PREFIX_LEN via VIA_IP if PORT
     logic [`ROUTING_TABLE_ENTRY_WIDTH-1:0] data_doutb;
-    logic [`BUCKET_INDEX_WIDTH-1:0] lookup_index;
+    logic [`ROUTING_TABLE_BUCKET_INDEX_WIDTH-1:0] lookup_index;
     logic [`IPV4_WIDTH-1:0] saved_dest_ip;
 
     // a for os, b for lookup
     xpm_memory_tdpram #(
-        .ADDR_WIDTH_A(`BUCKET_INDEX_WIDTH),
+        .ADDR_WIDTH_A(`ROUTING_TABLE_BUCKET_INDEX_WIDTH),
         .WRITE_DATA_WIDTH_A(`ROUTING_TABLE_ENTRY_WIDTH),
         .BYTE_WRITE_WIDTH_A(`BYTE_WIDTH),
         .READ_DATA_WIDTH_A(`ROUTING_TABLE_ENTRY_WIDTH),
-        .ADDR_WIDTH_B(`BUCKET_INDEX_WIDTH),
+        .ADDR_WIDTH_B(`ROUTING_TABLE_BUCKET_INDEX_WIDTH),
         .READ_LATENCY_A(1),
         .WRITE_DATA_WIDTH_B(`ROUTING_TABLE_ENTRY_WIDTH),
         .BYTE_WRITE_WIDTH_B(`ROUTING_TABLE_ENTRY_WIDTH),
