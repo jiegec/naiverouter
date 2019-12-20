@@ -352,7 +352,7 @@ module port #(
 
     // store received ethernet frame into fifo, data first, then len
     always_ff @ (posedge rx_mac_aclk) begin
-        if (reset) begin
+        if (reset_rx) begin
             rx_data_wen <= 0;
             rx_axis_mac_tvalid_last <= 0;
             rx_length <= 0;
