@@ -466,10 +466,10 @@ module port #(
     logic [`BYTE_WIDTH-1:0] rx_outbound_vlan_tag;
 
     logic [`PORT_COUNT-1:0][`IPV4_WIDTH-1:0] port_ip = {
-        `IPV4_WIDTH'h0a000301, // port 3 10.0.3.1
-        `IPV4_WIDTH'h0a000201, // port 2 10.0.2.1
-        `IPV4_WIDTH'h0a000101, // port 1 10.0.1.1
-        `IPV4_WIDTH'h0a000001  // port 0 10.0.0.1
+        `IPV4_WIDTH'hc0a80301, // port 3 192.168.3.1
+        `IPV4_WIDTH'hc0a80201, // port 2 192.168.2.1
+        `IPV4_WIDTH'hc0a80101, // port 1 192.168.1.1
+        `IPV4_WIDTH'hc0a80001  // port 0 192.168.0.1
     };
 
     logic [`MAC_WIDTH-1:0] port_mac = `MAC_WIDTH'h020203030000;
