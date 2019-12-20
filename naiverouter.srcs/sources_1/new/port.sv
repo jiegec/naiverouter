@@ -704,6 +704,8 @@ module port #(
                         arp_insert_valid <= 1;
                         arp_write <= 0;
                     end
+                end else if (arp_insert_ready && arp_insert_valid) begin
+                    arp_insert_valid <= 0;
                 end
                 // lookup via ip
                 if (ip_routing && !ip_lookup_routing) begin

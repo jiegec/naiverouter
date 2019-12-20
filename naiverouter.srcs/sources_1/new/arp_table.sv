@@ -40,12 +40,12 @@ module arp_table(
     );
 
     logic [`BUCKET_INDEX_WIDTH-1:0] lookup_bucket_index;
-    assign lookup_bucket_index = {lookup_ip[31], lookup_ip[30], lookup_ip[29]};
+    assign lookup_bucket_index = {lookup_ip[31], lookup_ip[30], lookup_ip[29], lookup_ip[28]};
 
     logic [`BUCKET_DEPTH_WIDTH-1:0] lookup_current_bucket_depth;
 
     // a for lookup, b for insert
-    logic [`IPV4_WIDTH+`MAC_WIDTH+`PORT_WIDTH-1:0] data_dina;
+    logic [`IPV4_WIDTH+`MAC_WIDTH+`PORT_WIDTH-1:0] data_dina = 0;
     logic [`IPV4_WIDTH+`MAC_WIDTH+`PORT_WIDTH-1:0] data_douta;
     logic [`BUCKET_INDEX_WIDTH+`BUCKET_DEPTH_WIDTH-1:0] data_addra;
     logic [`IPV4_WIDTH+`MAC_WIDTH+`PORT_WIDTH-1:0] data_dinb;

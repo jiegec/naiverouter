@@ -61,9 +61,9 @@ module routing_table(
         .READ_DATA_WIDTH_B(`ROUTING_TABLE_ENTRY_WIDTH),
         .READ_LATENCY_B(0),
         .MEMORY_SIZE(`BUCKET_INDEX_COUNT * `ROUTING_TABLE_ENTRY_WIDTH),
-        // 10.0.0.0/24 via 0.0.0.0 port 0
-        // 10.0.1.0/24 via 0.0.0.0 port 1
-        .MEMORY_INIT_PARAM("00a000000ffffff0000000000,10a000100ffffff0000000000,0000000000000000000000000")
+        // 192.168.0.0/24 via 0.0.0.0 port 0
+        // 192.168.1.0/24 via 0.0.0.0 port 1
+        .MEMORY_INIT_PARAM("0c0a80000ffffff0000000000,1c0a80100ffffff0000000000,0000000000000000000000000")
     ) xpm_memory_tdpram_data (
         .dina(os_din),
         .addra(os_addr),
